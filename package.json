@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
-    "client": "pnpm --filter @game-notices/cilent"
+    "client": "pnpm --filter @game-notices/cilent",
+    "email": "pnpm --filter @game-notices/transactional"
   },
   "keywords": [],
   "author": "",

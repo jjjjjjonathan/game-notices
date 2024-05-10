@@ -1,0 +1,19 @@
+{
+  "name": "@game-notices/transactional",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Email templates for game notices",
+  "scripts": {
+    "build": "email build ./templates",
+    "create": "email create",
+    "dev": "email preview ./templates"
+  },
+  "dependencies": {
+    "jsx-email": "^1.10.11"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "@types/react": "^18.2.0",
+    "typescript": "^5.2.2"
+  }
+}
