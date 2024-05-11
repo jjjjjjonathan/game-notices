@@ -1,9 +1,20 @@
-import { Button, Tailwind } from 'jsx-email';
+import { Tailwind, Html, Body, Container } from 'jsx-email';
+import { Header } from '../components/Header';
 
 export const Template = () => (
   <Tailwind production={true}>
-    <Button className="bg-emerald-500 px-3 py-2 font-medium leading-4 text-white">
-      Click me
-    </Button>
+    <Html lang='en'>
+      <Body className='bg-white'>
+        <Container>
+          <Header
+            leagueLogo={
+              'https://mqraydcreimschkgouyk.supabase.co/storage/v1/object/public/league-logos/m-premier.png'
+            }
+            competitionName={'League1 ON Premier Division'}
+            dateTime={'February 4, 2024'}
+          />
+        </Container>
+      </Body>
+    </Html>
   </Tailwind>
 );
