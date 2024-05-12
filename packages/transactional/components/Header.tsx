@@ -6,6 +6,7 @@ export type HeaderProps = {
   dateTime: string;
   matchId: number;
   location: string;
+  matchUrl: string;
 };
 
 const Header = ({
@@ -14,19 +15,26 @@ const Header = ({
   dateTime,
   matchId,
   location,
+  matchUrl,
 }: HeaderProps) => (
   <Section>
     <Row>
       <Column>
-        <Heading as='h1'>
-          Match <Link href='https://example.com'>#{matchId}</Link>
+        <Heading as='h1' disableDefaultStyle={true} className='m-1'>
+          Match <Link href={matchUrl}>#{matchId}</Link>
         </Heading>
-        <Text>{competitionName}</Text>
-        <Text>{dateTime}</Text>
-        <Text>{location}</Text>
+        <Text disableDefaultStyle={true} className='m-1'>
+          {competitionName}
+        </Text>
+        <Text disableDefaultStyle={true} className='m-1'>
+          {dateTime}
+        </Text>
+        <Text disableDefaultStyle={true} className='m-1'>
+          {location}
+        </Text>
       </Column>
       <Column align='right' className='my-auto pr-1'>
-        <Img src={leagueLogo} width='111' />
+        <Img src={leagueLogo} width='75' />
       </Column>
     </Row>
   </Section>
