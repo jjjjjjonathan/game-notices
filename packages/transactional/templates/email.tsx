@@ -1,5 +1,8 @@
 import { Tailwind, Html, Body, Container, Hr } from 'jsx-email';
 import Header, { type HeaderProps } from '../components/Header';
+import Teams from '../components/Teams';
+import Referees from '../components/Referees';
+import Contacts from '../components/Contacts';
 
 type EmailProps = {
   headerProps: HeaderProps;
@@ -31,6 +34,11 @@ export const Template = ({ headerProps }: EmailProps) => (
             location={headerProps.location}
           />
           <Hr />
+          <Teams />
+          <Hr />
+          <Referees />
+          <Hr />
+          <Contacts />
         </Container>
       </Body>
     </Html>
