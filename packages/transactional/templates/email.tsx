@@ -2,10 +2,12 @@ import { Tailwind, Html, Body, Container, Hr } from 'jsx-email';
 import Header, { type HeaderProps } from '../components/Header';
 import Teams from '../components/Teams';
 import Referees, { type RefereesProps, Referee } from '../components/Referees';
-import Contacts from '../components/Contacts';
+import Contacts, { type ContactsProps, Contact } from '../components/Contacts';
 
 type EmailProps = {
   headerProps: HeaderProps;
+  refereesProps: RefereesProps;
+  contactsProps: ContactsProps;
 };
 
 const headerProps = {
@@ -27,11 +29,64 @@ const refereesProps = {
   ],
 } satisfies RefereesProps;
 
+const contactsProps = {
+  contacts: [
+    {
+      role: 'Match day coordinator',
+      name: 'JONATHAN CHENG',
+      email: 'example@email.ca',
+      phoneNumber: '(123) 456-7890',
+      id: 123456,
+    } satisfies Contact,
+    {
+      role: 'Match day coordinator1',
+      name: 'JONATHAN CHENG',
+      email: 'example@email.ca',
+      phoneNumber: '(123) 456-7890',
+      id: 123457,
+    } satisfies Contact,
+    {
+      role: 'Match day coordinator2',
+      name: 'JONATHAN CHENG',
+      email: 'example@email.ca',
+      phoneNumber: '(123) 456-7890',
+      id: 123458,
+    } satisfies Contact,
+    {
+      role: 'Match day coordinator3',
+      name: 'JONATHAN CHENG',
+      email: 'example@email.ca',
+      phoneNumber: '(123) 456-7890',
+      id: 123459,
+    } satisfies Contact,
+    {
+      role: 'Match day coordinator4',
+      name: 'JONATHAN CHENG',
+      email: 'example@email.ca',
+      phoneNumber: '(123) 456-7890',
+      id: 123450,
+    } satisfies Contact,
+    {
+      role: 'Match day coordinator5',
+      name: 'JONATHAN CHENG',
+      email: 'example@email.ca',
+      phoneNumber: '(123) 456-7890',
+      id: 123451,
+    } satisfies Contact,
+  ],
+} satisfies ContactsProps;
+
 export const PreviewProps = {
   headerProps,
+  refereesProps,
+  contactsProps,
 };
 
-export const Template = ({ headerProps }: EmailProps) => (
+export const Template = ({
+  headerProps,
+  refereesProps,
+  contactsProps,
+}: EmailProps) => (
   <Tailwind production={true}>
     <Html lang='en'>
       <Body className='bg-white'>
@@ -49,7 +104,7 @@ export const Template = ({ headerProps }: EmailProps) => (
           <Hr />
           <Referees referees={refereesProps.referees} />
           <Hr />
-          <Contacts />
+          <Contacts contacts={contactsProps.contacts} />
         </Container>
       </Body>
     </Html>
