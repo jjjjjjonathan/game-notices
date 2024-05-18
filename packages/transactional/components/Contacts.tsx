@@ -13,24 +13,27 @@ export type ContactsProps = {
 };
 
 const ContactItem = ({ role, email, name, phoneNumber }: Contact) => (
-  <Row>
-    <Column className='w-2/5'>
-      <Text disableDefaultStyle={true} className='m-1'>
+  <Row className='border border-slate-300 border-solid'>
+    <Column className='w-2/7'>
+      <Text disableDefaultStyle={true} className='m-1 text-sm'>
         {role}
       </Text>
       <Column align='right'>
         <Section disableDefaultStyle={true} className='m-1'>
           <Row align='right'>
-            <Column>
+            <Column className='w-3/5'>
               <Text
                 disableDefaultStyle={true}
-                className='text-right m-1 font-bold'
+                className='text-right text-sm m-1 font-bold '
               >
                 <Link href={`mailto:${email}`}>{name}</Link>
               </Text>
             </Column>
-            <Column>
-              <Text disableDefaultStyle={true} className='text-right m-1'>
+            <Column className='w-2/5'>
+              <Text
+                disableDefaultStyle={true}
+                className='text-right text-sm m-1 pr-1'
+              >
                 {phoneNumber}
               </Text>
             </Column>
@@ -46,16 +49,18 @@ const Contacts = ({ contacts }: ContactsProps) => (
     <Heading as='h2' disableDefaultStyle={true} className='m-1'>
       Contacts
     </Heading>
-    {contacts.map((contact) => (
-      <ContactItem
-        key={contact.id}
-        name={contact.name}
-        email={contact.email}
-        phoneNumber={contact.phoneNumber}
-        role={contact.role}
-        id={contact.id}
-      />
-    ))}
+    <Section className='border border-slate-300 border-solid'>
+      {contacts.map((contact) => (
+        <ContactItem
+          key={contact.id}
+          name={contact.name}
+          email={contact.email}
+          phoneNumber={contact.phoneNumber}
+          role={contact.role}
+          id={contact.id}
+        />
+      ))}
+    </Section>
   </Section>
 );
 

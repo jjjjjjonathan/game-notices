@@ -61,7 +61,7 @@ const contactsProps = {
     } satisfies Contact,
     {
       role: 'Match day coordinator4',
-      name: 'JONATHAN CHENG',
+      name: 'JONATHAN MICHAEL CHENG',
       email: 'example@email.ca',
       phoneNumber: '(123) 456-7890',
       id: 123450,
