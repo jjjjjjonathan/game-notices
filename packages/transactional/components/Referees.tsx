@@ -11,15 +11,19 @@ export type RefereesProps = {
 
 const RefereeItem = ({ role, name }: Referee) => (
   <Row>
-    <Column>
-      <Text disableDefaultStyle={true} className='m-1'>
-        {role}
-      </Text>
+    <Column disableDefaultStyle={true} className='w-1/3'>
+      <Section>
+        <Text disableDefaultStyle={true} className='m-1'>
+          {role}
+        </Text>
+      </Section>
     </Column>
-    <Column>
-      <Text disableDefaultStyle={true} className='font-bold m-1 text-right'>
-        {name}
-      </Text>
+    <Column align='right'>
+      <Section disableDefaultStyle={true} className='text-right ml-auto'>
+        <Text disableDefaultStyle={true} className='font-bold m-1 text-right'>
+          {name}
+        </Text>
+      </Section>
     </Column>
   </Row>
 );

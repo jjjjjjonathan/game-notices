@@ -6,7 +6,8 @@
   "scripts": {
     "build": "email build ./templates",
     "create": "email create",
-    "dev": "email preview ./templates"
+    "dev": "email preview ./templates",
+    "check": "email check ./templates"
   },
   "dependencies": {
     "jsx-email": "^1.10.11"

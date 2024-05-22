@@ -24,16 +24,13 @@ const ContactItem = ({ role, email, name, phoneNumber }: Contact) => (
             <Column className='w-3/5'>
               <Text
                 disableDefaultStyle={true}
-                className='text-right text-sm m-1 font-bold '
+                className='text-sm m-1 font-bold'
               >
                 <Link href={`mailto:${email}`}>{name}</Link>
               </Text>
             </Column>
             <Column className='w-2/5'>
-              <Text
-                disableDefaultStyle={true}
-                className='text-right text-sm m-1 pr-1'
-              >
+              <Text disableDefaultStyle={true} className='text-sm m-1 pr-1'>
                 {phoneNumber}
               </Text>
             </Column>
