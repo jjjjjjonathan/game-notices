@@ -1,18 +1,22 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import { createTRPCRouter, createContext } from './trpc';
 import * as trpcExpress from '@trpc/server/adapters/express';
+import { cometDataRouter } from './routers/cometData';
 
 dotenv.config();
 
-export const appRouter = createTRPCRouter({});
+export const appRouter = createTRPCRouter({ cometData: cometDataRouter });
 export type AppRouter = typeof appRouter;
 
 const app: Express = express();
 const port = process.env.PORT || 3001;
 
+app.use(cors({ origin: 'http://localhost:5173' }));
+
 app.use(
-  '/trpc/',
+  '/trpc',
   trpcExpress.createExpressMiddleware({ router: appRouter, createContext }),
 );
 

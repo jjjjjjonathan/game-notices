@@ -6,7 +6,7 @@
   "scripts": {
     "build": "email build ./templates",
     "create": "email create",
-    "dev": "email preview ./templates",
+    "start": "email preview ./templates",
     "check": "email check ./templates"
   },
   "dependencies": {

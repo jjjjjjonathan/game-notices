@@ -10,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@game-notices/server": "workspace:*",
+    "@tanstack/react-query": "4",
+    "@trpc/client": "^10.45.2",
+    "@trpc/react-query": "^10.45.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
