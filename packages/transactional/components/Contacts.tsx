@@ -13,14 +13,14 @@ export type ContactsProps = {
 };
 
 const ContactItem = ({ role, email, name, phoneNumber }: Contact) => (
-  <Row className='border border-slate-300 border-solid'>
-    <Column className='w-2/7'>
+  <Row className='border border-slate-300 border-solid w-full min-w-full'>
+    <Column className='w-2/7 mr-auto'>
       <Text disableDefaultStyle={true} className='m-1 text-sm'>
         {role}
       </Text>
       <Column align='right'>
         <Section disableDefaultStyle={true} className='m-1'>
-          <Row align='right'>
+          <Row align='right' className='w-full mr-auto'>
             <Column className='w-3/5'>
               <Text
                 disableDefaultStyle={true}
@@ -29,7 +29,7 @@ const ContactItem = ({ role, email, name, phoneNumber }: Contact) => (
                 <Link href={`mailto:${email}`}>{name}</Link>
               </Text>
             </Column>
-            <Column className='w-2/5'>
+            <Column className='w-2/5 ml-auto'>
               <Text disableDefaultStyle={true} className='text-sm m-1 pr-1'>
                 {phoneNumber}
               </Text>

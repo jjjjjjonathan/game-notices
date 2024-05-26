@@ -24,7 +24,7 @@ export type KitsProps = {
 };
 
 const TeamKit = ({ logoSrc, logoAlt, playerKit, goalkeeperKit }: Team) => (
-  <Row className='my-2'>
+  <Row className='my-2 w-full min-w-full'>
     <Column className='w-1/3'>
       <Img src={logoSrc} width={50} className='mx-auto mt-auto' alt={logoAlt} />
       <Text disableDefaultStyle={true} className='text-center m-0'>
@@ -41,7 +41,7 @@ const TeamKit = ({ logoSrc, logoAlt, playerKit, goalkeeperKit }: Team) => (
 );
 
 const RefereeKit = ({ kitSrc }: RefereeKitProps) => (
-  <Row disableDefaultStyle={true} className='my-2'>
+  <Row className='my-2 w-full min-w-full'>
     <Column className='w-1/3 mr-auto'>
       <Text disableDefaultStyle={true} className='text-center mx-auto w-full'>
         Referees

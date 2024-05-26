@@ -10,15 +10,15 @@ export type RefereesProps = {
 };
 
 const RefereeItem = ({ role, name }: Referee) => (
-  <Row>
-    <Column disableDefaultStyle={true} className='w-1/3'>
+  <Row className='w-full min-w-full'>
+    <Column className='w-1/3 mr-auto'>
       <Section>
-        <Text disableDefaultStyle={true} className='m-1'>
+        <Text disableDefaultStyle={true} className='m-1 mr-auto'>
           {role}
         </Text>
       </Section>
     </Column>
-    <Column align='right'>
+    <Column disableDefaultStyle={true} className='w-2/3 ml-auto'>
       <Section disableDefaultStyle={true} className='text-right ml-auto'>
         <Text disableDefaultStyle={true} className='font-bold m-1 text-right'>
           {name}
@@ -33,9 +33,15 @@ const Referees = ({ referees }: RefereesProps) => (
     <Heading as='h2' disableDefaultStyle={true} className='m-1'>
       Match Officials
     </Heading>
-    {referees.map((referee) => (
-      <RefereeItem role={referee.role} name={referee.name} key={referee.role} />
-    ))}
+    <Section>
+      {referees.map((referee) => (
+        <RefereeItem
+          role={referee.role}
+          name={referee.name}
+          key={referee.role}
+        />
+      ))}
+    </Section>
   </Section>
 );
 
