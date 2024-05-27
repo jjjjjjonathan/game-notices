@@ -1,36 +1,51 @@
-export type CometMatchData = {
-  reportName: string;
-  columnTypes: Array<string>;
-  columnNames: Array<string>;
-  columnKeys: Array<string>;
-  results: Array<{
-    matchDate: number;
-    facilityId: number;
-    matchDescription: string;
-    awayTeam: number;
-    competitionType: string;
-    facilityPlaceName: string;
-    uid: number;
-    field: string;
-    facilityRegionName: string;
-    homeTeam: number;
-    '#result_id#': string;
+export type CometMatchData = Array<{
+  id: number;
+  homeTeam: {
     id: number;
-    lastupdateddatetime: number;
-    facility: string;
-    matchId: number;
-  }>;
-  totalSize: number;
-  page: number;
-  pageSize: number;
-  lastPage: number;
-  sortField: any;
-  sortDirection: string;
-  locale: string;
-  pivot: boolean;
-  curl: any;
-  apiKeyRequestURL: string;
-  reportTemplateID: number;
-  distributionGroup: boolean;
-  dataSnapshot: boolean;
-};
+    name: string;
+    picture: string;
+    place: string;
+    parent?: {
+      id: number;
+      name: string;
+      picture: string;
+      place: string;
+    };
+  };
+  awayTeam: {
+    id: number;
+    name: string;
+    picture: string;
+    place: string;
+    parent?: {
+      id: number;
+      name: string;
+      picture: string;
+      place: string;
+    };
+  };
+  liveStatus: string;
+  dateTimeUTC: number;
+  round: string;
+  roundOrder: number;
+  matchNumber: number;
+  currentMatchPhase: {};
+  competition: {
+    id: number;
+    name: string;
+    parentId?: number;
+    parentName?: string;
+    picture: string;
+    showStandings: boolean;
+    showStats: boolean;
+  };
+  facility: {
+    id: number;
+    address: string;
+    place: string;
+    latitude?: number;
+    longitude?: number;
+    name?: string;
+  };
+  showEvents: boolean;
+}>;
