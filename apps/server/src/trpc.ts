@@ -7,7 +7,7 @@ export const createContext = ({
 }: trpcExpress.CreateExpressContextOptions) => ({});
 type Context = inferAsyncReturnType<typeof createContext>;
 
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({});
 
 export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;

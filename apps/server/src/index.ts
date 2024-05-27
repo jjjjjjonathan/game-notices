@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { createTRPCRouter, createContext } from './trpc';
 import * as trpcExpress from '@trpc/server/adapters/express';
-import { cometDataRouter } from './routers/cometData';
+import { cometRouter } from './routers/comet';
 
 dotenv.config();
 
-export const appRouter = createTRPCRouter({ cometData: cometDataRouter });
+export const appRouter = createTRPCRouter({ comet: cometRouter });
 export type AppRouter = typeof appRouter;
 
 const app: Express = express();

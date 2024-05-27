@@ -1,0 +1,36 @@
+export type CometMatchData = {
+  reportName: string;
+  columnTypes: Array<string>;
+  columnNames: Array<string>;
+  columnKeys: Array<string>;
+  results: Array<{
+    matchDate: number;
+    facilityId: number;
+    matchDescription: string;
+    awayTeam: number;
+    competitionType: string;
+    facilityPlaceName: string;
+    uid: number;
+    field: string;
+    facilityRegionName: string;
+    homeTeam: number;
+    '#result_id#': string;
+    id: number;
+    lastupdateddatetime: number;
+    facility: string;
+    matchId: number;
+  }>;
+  totalSize: number;
+  page: number;
+  pageSize: number;
+  lastPage: number;
+  sortField: any;
+  sortDirection: string;
+  locale: string;
+  pivot: boolean;
+  curl: any;
+  apiKeyRequestURL: string;
+  reportTemplateID: number;
+  distributionGroup: boolean;
+  dataSnapshot: boolean;
+};
