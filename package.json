@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
-    "client": "pnpm --filter @game-notices/cilent",
+    "client": "pnpm --filter @game-notices/client",
     "email": "pnpm --filter @game-notices/transactional",
     "server": "pnpm --filter @game-notices/server",
-    "dev": "pnpm --stream -r dev"
+    "dev": "pnpm --parallel -r dev"
   },
   "keywords": [],
   "author": "",
