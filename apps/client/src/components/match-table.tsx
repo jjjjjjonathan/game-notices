@@ -7,6 +7,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import type { CometMatchData } from '@game-notices/server/utils/types';
+import MatchDialog from '@/components/match-dialog';
 
 type MatchTableProps = {
   data: CometMatchData;
@@ -34,7 +35,9 @@ const MatchRow = ({
       <TableCell>{dateTime}</TableCell>
       <TableCell>{homeTeamName}</TableCell>
       <TableCell>{awayTeamName}</TableCell>
-      <TableCell>button</TableCell>
+      <TableCell>
+        <MatchDialog matchId={id} />
+      </TableCell>
     </TableRow>
   );
 };
@@ -66,8 +69,6 @@ const MatchTable = ({ data }: MatchTableProps) => {
           ))}
         </TableBody>
       </Table>
-      <p>length of data is {data?.length}</p>
-      <p>{JSON.stringify(data)}</p>
     </>
   );
 };
