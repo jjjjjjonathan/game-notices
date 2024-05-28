@@ -1,4 +1,5 @@
 import { Calendar } from '@/components/ui/calendar';
+import MatchTable from '@/components/match-table';
 import { useState } from 'react';
 import { addDay, dayStart, format } from '@formkit/tempo';
 import { trpc } from '@/utils/trpc';
@@ -15,7 +16,7 @@ const DaySelector = () => {
 
   const { apiDate, comparisonDate } = formatDate(date || new Date());
 
-  const { data } = trpc.comet.getMatches.useQuery({
+  const { data, isSuccess } = trpc.comet.getMatches.useQuery({
     apiDate,
     comparisonDate,
   });
@@ -28,9 +29,7 @@ const DaySelector = () => {
         onSelect={setDate}
         className='rounded-md border'
       />
-      {date ? <p>date is: {apiDate}</p> : ''}
-      {data ? <p>length of data is {data?.length}</p> : ''}
-      {data ? <p>{JSON.stringify(data)}</p> : ''}
+      {isSuccess && <MatchTable data={data} />}
     </>
   );
 };
