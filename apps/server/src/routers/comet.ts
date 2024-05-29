@@ -10,13 +10,14 @@ export const cometRouter = createTRPCRouter({
   getMatches: publicProcedure
     .input(
       z.object({
-        apiDate: z.string(),
-        comparisonDate: z.string(),
+        date: z.string(),
       }),
     )
     .query(async ({ input }) => {
-      const response = await axios({
-        url: `${process.env.COMET_LIVE_URL}/${process.env.COMET_LIVE_TENANT}/matchList/${input.apiDate}/-4`,
+      const url = `${process.env.COMET_LIVE_URL}/${process.env.COMET_LIVE_TENANT}/matchList/${input.date}/-4`;
+
+      const { data }: { data: CometMatchData } = await axios({
+        url,
         method: 'get',
         headers: {
           API_KEY: process.env.COMET_LIVE_API_KEY || '',
@@ -26,6 +27,6 @@ export const cometRouter = createTRPCRouter({
         },
       });
 
-      return response.data as CometMatchData;
+      return data;
     }),
 });
