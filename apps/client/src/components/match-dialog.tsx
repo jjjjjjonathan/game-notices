@@ -24,7 +24,7 @@ type TeamKitRowProps = {
   isHome: boolean;
 };
 
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+// const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
 const TeamKitRow = ({ playerKit, goalkeeperKit, isHome }: TeamKitRowProps) => (
   <section className='flex flex-row items-center justify-center'>
@@ -52,6 +52,15 @@ const MatchDialog = ({ matchId }: MatchDialogProps) => {
     );
 
   const readyToSend = isSuccess && fetchStatus === 'idle';
+
+  const { mutate: uploadKits } = trpc.comet.uploadMatchKits.useMutation({
+    onSuccess: () => {
+      console.log('check server for base64');
+      setOpen(!open);
+      setIsSending(false);
+      toast('Game notice sent!');
+    },
+  });
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -89,11 +98,14 @@ const MatchDialog = ({ matchId }: MatchDialogProps) => {
             onSubmit={(event) => {
               event.preventDefault();
               setIsSending(true);
-              wait().then(() => {
-                setOpen(!open);
-                setIsSending(false);
-                toast('Game notice sent!');
-              });
+              if (data) {
+                uploadKits({
+                  homeKit: {
+                    svg: data.homeKit,
+                    name: data.homeKitPng,
+                  },
+                });
+              }
             }}
           >
             <Button

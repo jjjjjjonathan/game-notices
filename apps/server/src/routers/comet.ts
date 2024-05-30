@@ -3,8 +3,23 @@ import { z } from 'zod';
 import dotenv from 'dotenv';
 import axios from 'redaxios';
 import type { CometMatchData, MatchAdditionalDetails } from '../../utils/types';
+import { convertSvg } from '../../utils/svg-to-jpg';
+import { createClient } from '@supabase/supabase-js';
+import { decode } from 'base64-arraybuffer';
 
 dotenv.config();
+
+const supabase = createClient(
+  process.env.SUPABASE_URL || '',
+  process.env.SUPABASE_API_KEY || '',
+  {
+    global: {
+      headers: {
+        Authorization: process.env.SUPABASE_SERVICE_KEY || '',
+      },
+    },
+  },
+);
 
 export const cometRouter = createTRPCRouter({
   getMatches: publicProcedure
@@ -52,5 +67,24 @@ export const cometRouter = createTRPCRouter({
       });
 
       return data;
+    }),
+
+  uploadMatchKits: publicProcedure
+    .input(
+      z.object({
+        homeKit: z.object({
+          svg: z.string(),
+          name: z.string(),
+        }),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const base64 = await convertSvg(input.homeKit.svg);
+      const { data, error } = await supabase.storage
+        .from('kits')
+        .upload(`${input.homeKit.name}.jpg`, decode(base64), {
+          contentType: 'image/jpeg',
+        });
+      console.log(error);
     }),
 });
