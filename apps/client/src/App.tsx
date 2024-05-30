@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/react-query';
 import { trpc } from './utils/trpc';
 import DaySelector from '@/components/day-selector';
+import { Toaster } from '@/components/ui/sonner';
 
 function App() {
   const [queryClient] = useState(
@@ -29,6 +30,7 @@ function App() {
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         <DaySelector />
+        <Toaster />
       </QueryClientProvider>
     </trpc.Provider>
   );

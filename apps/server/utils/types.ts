@@ -49,3 +49,26 @@ export type CometMatchData = Array<{
   };
   showEvents: boolean;
 }>;
+
+export type MatchAdditionalDetails = {
+  refereeKit: string;
+  refereeKitPng: string;
+  homeKit: string;
+  homeKitPng: string;
+  homeGKKit: string;
+  homeGKKitPng: string;
+  awayKit: string;
+  awayKitPng: string;
+  awayGKKit: string;
+  awayGKKitPng: string;
+  matchOfficials: Array<{
+    roleId: number;
+    personId: number;
+    name: string;
+    shortName: string;
+    role: string;
+    picture?: string;
+    flag: string;
+    orderNumber: number;
+  }>;
+};
