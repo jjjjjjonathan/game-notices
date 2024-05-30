@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/table';
 import type { CometMatchData } from '@game-notices/server/utils/types';
 import MatchDialog from '@/components/match-dialog';
+import { format } from '@formkit/tempo';
 
 type MatchTableProps = {
   data: CometMatchData;
@@ -21,6 +22,13 @@ type MatchRowProps = {
   dateTime: number;
 };
 
+const DATE_DISPLAY_FORMAT = 'ddd, MMM D, YYYY • h:mm a';
+
+const convertTimestampToDate = (timestamp: number) => {
+  const date = new Date(timestamp);
+  return date;
+};
+
 const MatchRow = ({
   id,
   homeTeamName,
@@ -28,11 +36,13 @@ const MatchRow = ({
   competitionName,
   dateTime,
 }: MatchRowProps) => {
+  const date = convertTimestampToDate(dateTime);
+
   return (
     <TableRow>
       <TableCell>{id}</TableCell>
       <TableCell>{competitionName}</TableCell>
-      <TableCell>{dateTime}</TableCell>
+      <TableCell>{format(date, DATE_DISPLAY_FORMAT, 'en')}</TableCell>
       <TableCell>{homeTeamName}</TableCell>
       <TableCell>{awayTeamName}</TableCell>
       <TableCell>
