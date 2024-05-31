@@ -54,8 +54,14 @@ const MatchDialog = ({ matchId }: MatchDialogProps) => {
   const readyToSend = isSuccess && fetchStatus === 'idle';
 
   const { mutate: uploadKits } = trpc.comet.uploadMatchKits.useMutation({
-    onSuccess: () => {
-      console.log('check server for base64');
+    onSuccess: (data) => {
+      console.log(
+        data.homeKit,
+        data.awayKit,
+        data.homeGKKit,
+        data.awayGKKit,
+        data.refereeKit,
+      );
       setOpen(!open);
       setIsSending(false);
       toast('Game notice sent!');
@@ -103,6 +109,22 @@ const MatchDialog = ({ matchId }: MatchDialogProps) => {
                   homeKit: {
                     svg: data.homeKit,
                     name: data.homeKitPng,
+                  },
+                  homeGKKit: {
+                    svg: data.homeGKKit,
+                    name: data.homeGKKitPng,
+                  },
+                  awayKit: {
+                    svg: data.awayKit,
+                    name: data.awayKitPng,
+                  },
+                  awayGKKit: {
+                    svg: data.awayGKKit,
+                    name: data.awayGKKitPng,
+                  },
+                  refereeKit: {
+                    svg: data.refereeKit,
+                    name: data.refereeKitPng,
                   },
                 });
               }
