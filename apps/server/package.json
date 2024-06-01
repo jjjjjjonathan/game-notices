@@ -4,8 +4,10 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec 'ts-node' src/index.ts"
+    "dev": "nodemon --exec 'ts-node' src/index.ts",
+    "migrate": "drizzle-kit migrate",
+    "generate": "drizzle-kit generate",
+    "studio": "drizzle-kit studio --verbose"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +19,9 @@
     "base64-arraybuffer": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.31.0",
     "express": "^4.19.2",
+    "postgres": "^3.4.4",
     "redaxios": "^0.5.1",
     "resend": "^3.2.0",
     "sharp": "^0.33.4",
@@ -27,6 +31,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.11",
+    "drizzle-kit": "^0.22.1",
     "nodemon": "^3.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
