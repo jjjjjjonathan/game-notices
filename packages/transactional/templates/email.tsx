@@ -4,7 +4,7 @@ import Kits, { type KitsProps } from '../components/Kits';
 import Referees, { type RefereesProps, Referee } from '../components/Referees';
 import Contacts, { type ContactsProps, Contact } from '../components/Contacts';
 
-type EmailProps = {
+export type EmailProps = {
   headerProps: HeaderProps;
   refereesProps: RefereesProps;
   contactsProps: ContactsProps;

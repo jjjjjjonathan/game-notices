@@ -72,3 +72,31 @@ export type MatchAdditionalDetails = {
     orderNumber: number;
   }>;
 };
+
+export type LogoData = {
+  reportName: string;
+  columnTypes: Array<string>;
+  columnNames: Array<string>;
+  columnKeys: Array<string>;
+  results: Array<{
+    uid: number;
+    logo: string;
+    '#result_id#': string;
+    id: number;
+    lastupdateddatetime: number;
+    parentOrganizationId: number;
+  }>;
+  totalSize: number;
+  page: number;
+  pageSize: number;
+  lastPage: number;
+  sortField: any;
+  sortDirection: string;
+  locale: string;
+  pivot: boolean;
+  curl: any;
+  apiKeyRequestURL: string;
+  reportTemplateID: number;
+  distributionGroup: boolean;
+  dataSnapshot: boolean;
+};

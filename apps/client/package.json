@@ -12,6 +12,7 @@
   "dependencies": {
     "@formkit/tempo": "^0.1.1",
     "@game-notices/server": "workspace:*",
+    "@game-notices/transactional": "workspace:*",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slot": "^1.0.2",
@@ -21,6 +22,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "jsx-email": "^1.10.11",
     "lucide-react": "^0.379.0",
     "next-themes": "^0.3.0",
     "react": "^18.2.0",

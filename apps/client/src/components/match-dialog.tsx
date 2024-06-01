@@ -10,12 +10,18 @@ import {
 } from '@/components/ui/alert-dialog';
 import SVG from 'react-inlinesvg';
 import { useState } from 'react';
+import type { ReactNode } from 'react';
 import { Button } from './ui/button';
 import { trpc } from '@/utils/trpc';
 import { toast } from 'sonner';
+// import { render } from 'jsx-email';
+// import { Template } from '@game-notices/transactional/templates/email';
+import type { Referee } from '@game-notices/transactional/components/Referees';
 
 type MatchDialogProps = {
   matchId: number;
+  homeParentId: number;
+  awayParentId: number;
 };
 
 type TeamKitRowProps = {
@@ -24,36 +30,94 @@ type TeamKitRowProps = {
   isHome: boolean;
 };
 
-// const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+type MatchOfficial = {
+  roleId: number;
+  personId: number;
+  name: string;
+  shortName: string;
+  role: string;
+  picture?: string;
+  flag: string;
+  orderNumber: number;
+};
+
+const filterMatchOfficials = (matchOfficials: MatchOfficial[]) => {
+  const referees = [
+    'Referee',
+    '1st assistant referee',
+    '2nd assistant referee',
+    'Fourth official',
+  ];
+
+  return matchOfficials
+    .filter((matchOfficial) => referees.includes(matchOfficial.role))
+    .map(
+      (referee) =>
+        ({ role: referee.role, name: referee.shortName }) satisfies Referee,
+    );
+};
+
+const KitItem = ({ children }: { children: ReactNode }) => {
+  return <div className='flex flex-col items-center'>{children}</div>;
+};
 
 const TeamKitRow = ({ playerKit, goalkeeperKit, isHome }: TeamKitRowProps) => (
   <section className='flex flex-row items-center justify-center'>
-    <div className='flex flex-col items-center'>
+    <KitItem>
       <SVG src={playerKit} />
-      <p>{isHome ? 'Home' : 'Away'} - Player</p>
-    </div>
-    <div className='flex flex-col items-center'>
+      <p>{isHome ? 'Home' : 'Away'} - Players</p>
+    </KitItem>
+    <KitItem>
       <SVG src={goalkeeperKit} />
-      <p>{isHome ? 'Home' : 'Away'} - Goalkeeper</p>
-    </div>
+      <p>{isHome ? 'Home' : 'Away'} - Goalkeepers</p>
+    </KitItem>
   </section>
 );
 
-const MatchDialog = ({ matchId }: MatchDialogProps) => {
+const MatchDialog = ({
+  matchId,
+  homeParentId,
+  awayParentId,
+}: MatchDialogProps) => {
   const [open, setOpen] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
-  const { data, isSuccess, fetchStatus } =
-    trpc.comet.getAdditionalMatchDetails.useQuery(
-      { matchId },
-      {
-        enabled: open,
-      },
-    );
+  const {
+    data: additionalMatchDetails,
+    isSuccess: matchDetailsSuccess,
+    fetchStatus: matchDetailsStatus,
+  } = trpc.comet.getAdditionalMatchDetails.useQuery(
+    { matchId },
+    {
+      enabled: open,
+    },
+  );
 
-  const readyToSend = isSuccess && fetchStatus === 'idle';
+  const {
+    data: homeLogo,
+    isSuccess: homeLogoSuccess,
+    fetchStatus: homeLogoFetchStatus,
+  } = trpc.comet.getLogo.useQuery(
+    { clubParentId: homeParentId },
+    { enabled: open },
+  );
 
-  const { mutate: uploadKits } = trpc.comet.uploadMatchKits.useMutation({
+  const {
+    data: awayLogo,
+    isSuccess: awayLogoSuccess,
+    fetchStatus: awayLogoFetchStatus,
+  } = trpc.comet.getLogo.useQuery(
+    { clubParentId: awayParentId },
+    { enabled: open },
+  );
+
+  const matchDetailsReady =
+    matchDetailsSuccess && matchDetailsStatus === 'idle';
+  const homeLogoReady = homeLogoSuccess && homeLogoFetchStatus === 'idle';
+  const awayLogoReady = awayLogoSuccess && awayLogoFetchStatus === 'idle';
+  const readyToSend = matchDetailsReady && homeLogoReady && awayLogoReady;
+
+  const { mutate: uploadKits } = trpc.comet.uploadKits.useMutation({
     onSuccess: (data) => {
       console.log(
         data.homeKit,
@@ -64,7 +128,7 @@ const MatchDialog = ({ matchId }: MatchDialogProps) => {
       );
       setOpen(!open);
       setIsSending(false);
-      toast('Game notice sent!');
+      toast('Game notices sent!');
     },
   });
 
@@ -81,19 +145,39 @@ const MatchDialog = ({ matchId }: MatchDialogProps) => {
             <>
               <TeamKitRow
                 isHome={true}
-                playerKit={data.homeKit}
-                goalkeeperKit={data.homeGKKit}
+                playerKit={additionalMatchDetails.homeKit}
+                goalkeeperKit={additionalMatchDetails.homeGKKit}
               />
               <TeamKitRow
                 isHome={false}
-                playerKit={data.awayKit}
-                goalkeeperKit={data.awayGKKit}
+                playerKit={additionalMatchDetails.awayKit}
+                goalkeeperKit={additionalMatchDetails.awayGKKit}
               />
               <section className='flex flex-row items-center justify-center'>
                 <div className='flex flex-col items-center'>
-                  <SVG src={data.refereeKit} />
-                  <p>Referee</p>
+                  <SVG
+                    src={additionalMatchDetails.refereeKit}
+                    width={42}
+                    height={66}
+                  />
+                  <p>Referees</p>
                 </div>
+              </section>
+              <section>
+                <p>{homeLogo}</p>
+                <p>{awayLogo}</p>
+              </section>
+              <section className='grid grid-cols-2 gap-2'>
+                {filterMatchOfficials(
+                  additionalMatchDetails.matchOfficials,
+                ).map((referee) => (
+                  <div key={referee.role}>
+                    <p>{referee.name}</p>
+                    <p>{referee.role}</p>
+                  </div>
+                ))}
+                <p>{homeParentId}</p>
+                <p>{awayParentId}</p>
               </section>
             </>
           )}
@@ -104,27 +188,27 @@ const MatchDialog = ({ matchId }: MatchDialogProps) => {
             onSubmit={(event) => {
               event.preventDefault();
               setIsSending(true);
-              if (data) {
+              if (additionalMatchDetails) {
                 uploadKits({
                   homeKit: {
-                    svg: data.homeKit,
-                    name: data.homeKitPng,
+                    svg: additionalMatchDetails.homeKit,
+                    name: additionalMatchDetails.homeKitPng,
                   },
                   homeGKKit: {
-                    svg: data.homeGKKit,
-                    name: data.homeGKKitPng,
+                    svg: additionalMatchDetails.homeGKKit,
+                    name: additionalMatchDetails.homeGKKitPng,
                   },
                   awayKit: {
-                    svg: data.awayKit,
-                    name: data.awayKitPng,
+                    svg: additionalMatchDetails.awayKit,
+                    name: additionalMatchDetails.awayKitPng,
                   },
                   awayGKKit: {
-                    svg: data.awayGKKit,
-                    name: data.awayGKKitPng,
+                    svg: additionalMatchDetails.awayGKKit,
+                    name: additionalMatchDetails.awayGKKitPng,
                   },
                   refereeKit: {
-                    svg: data.refereeKit,
-                    name: data.refereeKitPng,
+                    svg: additionalMatchDetails.refereeKit,
+                    name: additionalMatchDetails.refereeKitPng,
                   },
                 });
               }

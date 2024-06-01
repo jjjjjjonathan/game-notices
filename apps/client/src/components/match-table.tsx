@@ -20,6 +20,8 @@ type MatchRowProps = {
   awayTeamName: string;
   competitionName: string;
   dateTime: number;
+  homeParentId: number;
+  awayParentId: number;
 };
 
 const DATE_DISPLAY_FORMAT = 'ddd, MMM D, YYYY • h:mm a';
@@ -35,6 +37,8 @@ const MatchRow = ({
   awayTeamName,
   competitionName,
   dateTime,
+  homeParentId,
+  awayParentId,
 }: MatchRowProps) => {
   const date = convertTimestampToDate(dateTime);
 
@@ -46,7 +50,11 @@ const MatchRow = ({
       <TableCell>{homeTeamName}</TableCell>
       <TableCell>{awayTeamName}</TableCell>
       <TableCell>
-        <MatchDialog matchId={id} />
+        <MatchDialog
+          matchId={id}
+          homeParentId={homeParentId}
+          awayParentId={awayParentId}
+        />
       </TableCell>
     </TableRow>
   );
@@ -75,6 +83,8 @@ const MatchTable = ({ data }: MatchTableProps) => {
               homeTeamName={match.homeTeam.name}
               awayTeamName={match.awayTeam.name}
               id={match.id}
+              homeParentId={match.homeTeam.parent?.id || 0}
+              awayParentId={match.awayTeam.parent?.id || 0}
             />
           ))}
         </TableBody>
