@@ -4,10 +4,14 @@ import cors from 'cors';
 import { createTRPCRouter, createContext } from './trpc';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { cometRouter } from './routers/comet';
+import { emailRouter } from './routers/email';
 
 dotenv.config();
 
-export const appRouter = createTRPCRouter({ comet: cometRouter });
+export const appRouter = createTRPCRouter({
+  comet: cometRouter,
+  email: emailRouter,
+});
 export type AppRouter = typeof appRouter;
 
 const app: Express = express();
