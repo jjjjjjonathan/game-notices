@@ -5,12 +5,14 @@ import { createTRPCRouter, createContext } from './trpc';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { cometRouter } from './routers/comet';
 import { emailRouter } from './routers/email';
+import { storageRouter } from './routers/storage';
 
 dotenv.config();
 
 export const appRouter = createTRPCRouter({
   comet: cometRouter,
   email: emailRouter,
+  storage: storageRouter,
 });
 export type AppRouter = typeof appRouter;
 
