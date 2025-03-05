@@ -123,4 +123,14 @@ export const cometRouter = createTRPCRouter({
 
       return data.results[0].logo;
     }),
+
+  // getLogos: publicProcedure.input(z.object({
+  //   competitionId: z.number(),
+  //   homeTeamId: z.number(),
+  //   awayTeamId: z.number()
+  // })).query(async ({ input }) => {
+
+  // })
 });
+
+// https://jgalrtznvgegzlshobzj.supabase.co/storage/v1/object/public/logos/competitions/255517628.png

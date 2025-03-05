@@ -17,6 +17,8 @@ import { toast } from 'sonner';
 // import { render } from 'jsx-email';
 // import { Template } from '@game-notices/transactional/templates/email';
 import type { Referee } from '@game-notices/transactional/components/Referees';
+import GameNotice from './game-notice';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 type MatchDialogProps = {
   matchId: number;
@@ -93,29 +95,29 @@ const MatchDialog = ({
     },
   );
 
-  const {
-    data: homeLogo,
-    isSuccess: homeLogoSuccess,
-    fetchStatus: homeLogoFetchStatus,
-  } = trpc.comet.getLogo.useQuery(
-    { clubParentId: homeParentId },
-    { enabled: open },
-  );
+  // const {
+  //   data: homeLogo,
+  //   isSuccess: homeLogoSuccess,
+  //   fetchStatus: homeLogoFetchStatus,
+  // } = trpc.comet.getLogo.useQuery(
+  //   { clubParentId: homeParentId },
+  //   { enabled: open },
+  // );
 
-  const {
-    data: awayLogo,
-    isSuccess: awayLogoSuccess,
-    fetchStatus: awayLogoFetchStatus,
-  } = trpc.comet.getLogo.useQuery(
-    { clubParentId: awayParentId },
-    { enabled: open },
-  );
+  // const {
+  //   data: awayLogo,
+  //   isSuccess: awayLogoSuccess,
+  //   fetchStatus: awayLogoFetchStatus,
+  // } = trpc.comet.getLogo.useQuery(
+  //   { clubParentId: awayParentId },
+  //   { enabled: open },
+  // );
 
   const matchDetailsReady =
     matchDetailsSuccess && matchDetailsStatus === 'idle';
-  const homeLogoReady = homeLogoSuccess && homeLogoFetchStatus === 'idle';
-  const awayLogoReady = awayLogoSuccess && awayLogoFetchStatus === 'idle';
-  const readyToSend = matchDetailsReady && homeLogoReady && awayLogoReady;
+  // const homeLogoReady = homeLogoSuccess && homeLogoFetchStatus === 'idle';
+  // const awayLogoReady = awayLogoSuccess && awayLogoFetchStatus === 'idle';
+  // const readyToSend = matchDetailsReady && homeLogoReady && awayLogoReady;
 
   const { mutate: uploadKits } = trpc.comet.uploadKits.useMutation({
     onSuccess: (data) => {
@@ -141,7 +143,8 @@ const MatchDialog = ({
           <AlertDialogDescription>
             These are the kits pulled from COMET.
           </AlertDialogDescription>
-          {readyToSend && (
+
+          {/* {readyToSend && (
             <>
               <TeamKitRow
                 isHome={true}
@@ -180,7 +183,7 @@ const MatchDialog = ({
                 <p>{awayParentId}</p>
               </section>
             </>
-          )}
+          )} */}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -214,12 +217,13 @@ const MatchDialog = ({
               }
             }}
           >
-            <Button
-              disabled={!readyToSend || isSending}
-              variant='default'
-              type='submit'
+            <PDFDownloadLink
+              document={<GameNotice competitionLogo={255517700} />}
             >
-              {readyToSend ? 'Send game notices' : 'Waiting...'}
+              Download PDF
+            </PDFDownloadLink>
+            <Button disabled={true} variant='default' type='submit'>
+              placeholder
             </Button>
           </form>
         </AlertDialogFooter>
