@@ -217,15 +217,29 @@ const MatchDialog = ({
               }
             }}
           >
-            <PDFDownloadLink
-              document={<GameNotice competitionLogo={255517700} />}
-            >
-              Download PDF
-            </PDFDownloadLink>
             <Button disabled={true} variant='default' type='submit'>
               placeholder
             </Button>
           </form>
+          <PDFDownloadLink
+            document={
+              <GameNotice
+                header={{
+                  competitionLogo: 255517700,
+                  homeTeamLogo: 255517700,
+                  awayTeamLogo: 255517700,
+                  homeTeamName: 'SIMCOE COUNTY ROVERS U-20 WOMEN',
+                  awayTeamName: 'SIMCOE COUNTY ROVERS U-20 WOMEN',
+                  stadium: 'ST. KATERI TEKAKWITHA SECONDARY',
+                  date: 'Wed, Nov 6, 2024',
+                  time: '8:00 pm',
+                  matchId: 1234567,
+                }}
+              />
+            }
+          >
+            Download PDF
+          </PDFDownloadLink>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

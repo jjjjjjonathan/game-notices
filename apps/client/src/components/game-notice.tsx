@@ -32,17 +32,33 @@ const tw = createTw({
 const LOGOS_URL =
   'https://jgalrtznvgegzlshobzj.supabase.co/storage/v1/object/public/logos/';
 
-type GameNoticeProps = {
-  competitionLogo: number;
-};
-
 type HeaderProps = {
   competitionLogo: number;
   homeTeamLogo: number;
   awayTeamLogo: number;
+  homeTeamName: string;
+  awayTeamName: string;
+  stadium: string;
+  date: string;
+  time: string;
+  matchId: number;
 };
 
-const GameNoticeHeader = ({ competitionLogo }: HeaderProps) => {
+type GameNoticeProps = {
+  header: HeaderProps;
+};
+
+const GameNoticeHeader = ({
+  competitionLogo,
+  homeTeamLogo,
+  awayTeamLogo,
+  homeTeamName,
+  awayTeamName,
+  stadium,
+  date,
+  time,
+  matchId,
+}: HeaderProps) => {
   return (
     <>
       {/* Competition logo */}
@@ -80,44 +96,76 @@ const GameNoticeHeader = ({ competitionLogo }: HeaderProps) => {
           <View
             style={tw('h-20 w-36 flex flex-col items-center justify-between')}
           >
-            <Text style={tw('text-center pt-4')}>
-              SIMCOE COUNTY ROVERS U-20 WOMEN
-            </Text>
+            <Text style={tw('text-center pt-4')}>{homeTeamName}</Text>
             <Text style={tw('text-center pb-4')}>Home</Text>
           </View>
           {/* Home Team Logo */}
           <Image
-            src={`${LOGOS_URL}competitions/${competitionLogo}.png`}
+            src={`${LOGOS_URL}competitions/${homeTeamLogo}.png`}
             style={tw('h-20 w-20')}
           />
         </View>
         <View style={tw('flex flex-row text-xs items-center justify-start')}>
           {/* Away Team Logo */}
           <Image
-            src={`${LOGOS_URL}competitions/${competitionLogo}.png`}
+            src={`${LOGOS_URL}competitions/${awayTeamLogo}.png`}
             style={tw('h-20 w-20')}
           />
           {/* Away Team Name */}
           <View
             style={tw('h-20 w-36 flex flex-col items-center justify-between')}
           >
-            <Text style={tw('text-center pt-4')}>SIMCOE COUNTY ROVERS</Text>
+            <Text style={tw('text-center pt-4')}>{awayTeamName}</Text>
             <Text style={tw('text-center pb-4')}>Away</Text>
           </View>
         </View>
+      </View>
+      {/* Match info */}
+      <View
+        style={tw('mx-auto flex flex-col gap-y-4 items-center justify-center')}
+      >
+        <Svg height='10' width='500'>
+          <Line
+            x1='0'
+            y1='5'
+            x2='500'
+            y2='5'
+            strokeWidth={1}
+            stroke='rgb(211,211,211)'
+          />
+        </Svg>
+        <Text style={tw('text-xs')}>
+          {stadium} • {date} • {time} ET • Match #{matchId}
+        </Text>
+        <Svg height='10' width='500'>
+          <Line
+            x1='0'
+            y1='5'
+            x2='500'
+            y2='5'
+            strokeWidth={1}
+            stroke='rgb(211,211,211)'
+          />
+        </Svg>
       </View>
     </>
   );
 };
 
-export default function GameNotice({ competitionLogo }: GameNoticeProps) {
+export default function GameNotice({ header }: GameNoticeProps) {
   return (
     <Document>
       <Page size='LETTER' style={tw('p-12 font-sans')}>
         <GameNoticeHeader
-          competitionLogo={competitionLogo}
-          homeTeamLogo={competitionLogo}
-          awayTeamLogo={competitionLogo}
+          competitionLogo={header.competitionLogo}
+          homeTeamLogo={header.homeTeamLogo}
+          awayTeamLogo={header.awayTeamLogo}
+          homeTeamName={header.homeTeamName}
+          awayTeamName={header.awayTeamName}
+          stadium={header.stadium}
+          date={header.date}
+          time={header.time}
+          matchId={header.matchId}
         />
       </Page>
     </Document>
