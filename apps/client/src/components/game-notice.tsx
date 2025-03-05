@@ -39,8 +39,7 @@ type HeaderProps = {
   homeTeamName: string;
   awayTeamName: string;
   stadium: string;
-  date: string;
-  time: string;
+  dateTime: string;
   matchId: number;
 };
 
@@ -55,8 +54,7 @@ const GameNoticeHeader = ({
   homeTeamName,
   awayTeamName,
   stadium,
-  date,
-  time,
+  dateTime,
   matchId,
 }: HeaderProps) => {
   return (
@@ -101,14 +99,14 @@ const GameNoticeHeader = ({
           </View>
           {/* Home Team Logo */}
           <Image
-            src={`${LOGOS_URL}competitions/${homeTeamLogo}.png`}
+            src={`${LOGOS_URL}teams/${homeTeamLogo}.png`}
             style={tw('h-20 w-20')}
           />
         </View>
         <View style={tw('flex flex-row text-xs items-center justify-start')}>
           {/* Away Team Logo */}
           <Image
-            src={`${LOGOS_URL}competitions/${awayTeamLogo}.png`}
+            src={`${LOGOS_URL}teams/${awayTeamLogo}.png`}
             style={tw('h-20 w-20')}
           />
           {/* Away Team Name */}
@@ -135,7 +133,7 @@ const GameNoticeHeader = ({
           />
         </Svg>
         <Text style={tw('text-xs')}>
-          {stadium} • {date} • {time} ET • Match #{matchId}
+          {stadium} • {dateTime} ET • Match #{matchId}
         </Text>
         <Svg height='10' width='500'>
           <Line
@@ -163,8 +161,7 @@ export default function GameNotice({ header }: GameNoticeProps) {
           homeTeamName={header.homeTeamName}
           awayTeamName={header.awayTeamName}
           stadium={header.stadium}
-          date={header.date}
-          time={header.time}
+          dateTime={header.dateTime}
           matchId={header.matchId}
         />
       </Page>

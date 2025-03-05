@@ -24,6 +24,13 @@ type MatchDialogProps = {
   matchId: number;
   homeParentId: number;
   awayParentId: number;
+  homeTeamId: number;
+  awayTeamId: number;
+  competitionId: number;
+  homeTeamName: string;
+  awayTeamName: string;
+  stadium: string;
+  dateTime: string;
 };
 
 type TeamKitRowProps = {
@@ -80,6 +87,13 @@ const MatchDialog = ({
   matchId,
   homeParentId,
   awayParentId,
+  competitionId,
+  homeTeamId,
+  awayTeamId,
+  homeTeamName,
+  awayTeamName,
+  stadium,
+  dateTime,
 }: MatchDialogProps) => {
   const [open, setOpen] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -225,15 +239,14 @@ const MatchDialog = ({
             document={
               <GameNotice
                 header={{
-                  competitionLogo: 255517700,
-                  homeTeamLogo: 255517700,
-                  awayTeamLogo: 255517700,
-                  homeTeamName: 'SIMCOE COUNTY ROVERS U-20 WOMEN',
-                  awayTeamName: 'SIMCOE COUNTY ROVERS U-20 WOMEN',
-                  stadium: 'ST. KATERI TEKAKWITHA SECONDARY',
-                  date: 'Wed, Nov 6, 2024',
-                  time: '8:00 pm',
-                  matchId: 1234567,
+                  competitionLogo: competitionId,
+                  homeTeamLogo: homeTeamId,
+                  awayTeamLogo: awayTeamId,
+                  homeTeamName: homeTeamName,
+                  awayTeamName: awayTeamName,
+                  stadium: stadium,
+                  dateTime: dateTime,
+                  matchId: matchId,
                 }}
               />
             }
