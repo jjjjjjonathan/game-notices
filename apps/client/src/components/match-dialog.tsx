@@ -164,47 +164,6 @@ const MatchDialog = ({
           <AlertDialogDescription>
             These are the kits pulled from COMET.
           </AlertDialogDescription>
-
-          {/* {readyToSend && (
-            <>
-              <TeamKitRow
-                isHome={true}
-                playerKit={additionalMatchDetails.homeKit}
-                goalkeeperKit={additionalMatchDetails.homeGKKit}
-              />
-              <TeamKitRow
-                isHome={false}
-                playerKit={additionalMatchDetails.awayKit}
-                goalkeeperKit={additionalMatchDetails.awayGKKit}
-              />
-              <section className='flex flex-row items-center justify-center'>
-                <div className='flex flex-col items-center'>
-                  <SVG
-                    src={additionalMatchDetails.refereeKit}
-                    width={42}
-                    height={66}
-                  />
-                  <p>Referees</p>
-                </div>
-              </section>
-              <section>
-                <p>{homeLogo}</p>
-                <p>{awayLogo}</p>
-              </section>
-              <section className='grid grid-cols-2 gap-2'>
-                {filterMatchOfficials(
-                  additionalMatchDetails.matchOfficials,
-                ).map((referee) => (
-                  <div key={referee.role}>
-                    <p>{referee.name}</p>
-                    <p>{referee.role}</p>
-                  </div>
-                ))}
-                <p>{homeParentId}</p>
-                <p>{awayParentId}</p>
-              </section>
-            </>
-          )} */}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -256,6 +215,13 @@ const MatchDialog = ({
                   matchId: matchId,
                 }}
                 matchOfficials={matchOfficials}
+                kits={{
+                  homeKit: additionalMatchDetails?.homeKit || '',
+                  homeGKKit: additionalMatchDetails?.homeGKKit || '',
+                  awayKit: additionalMatchDetails?.awayKit || '',
+                  awayGKKit: additionalMatchDetails?.awayGKKit || '',
+                  refereeKit: additionalMatchDetails?.refereeKit || '',
+                }}
               />
             }
           >

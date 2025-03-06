@@ -7,6 +7,7 @@ import type {
   MatchAdditionalDetails,
   LogoData,
 } from '../../utils/types';
+import { convertSvgToPng } from '../../utils/kits';
 import { uploadKit } from '../../utils/supabase';
 import { TRPCError } from '@trpc/server';
 
@@ -55,7 +56,24 @@ export const cometRouter = createTRPCRouter({
           organizationIdFilter: process.env.COMET_LIVE_ORGANIZATION_ID,
         },
       });
-      return data;
+
+      const [homeKit, homeGKKit, awayKit, awayGKKit, refereeKit] =
+        await Promise.all([
+          convertSvgToPng(data.homeKit),
+          convertSvgToPng(data.homeGKKit),
+          convertSvgToPng(data.awayKit),
+          convertSvgToPng(data.awayGKKit),
+          convertSvgToPng(data.refereeKit),
+        ]);
+
+      return {
+        ...data,
+        homeKit,
+        homeGKKit,
+        awayKit,
+        awayGKKit,
+        refereeKit,
+      };
     }),
 
   uploadKits: publicProcedure

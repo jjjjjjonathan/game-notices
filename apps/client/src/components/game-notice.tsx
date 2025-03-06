@@ -188,14 +188,70 @@ const GameNoticeMatchOfficials = ({
   );
 };
 
+type KitsProps = {
+  homeKit: string;
+  homeGKKit: string;
+  awayKit: string;
+  awayGKKit: string;
+  refereeKit: string;
+};
+
+type KitProp = {
+  kit: string;
+  description: string;
+};
+
+const Kit = ({ kit, description }: KitProp) => {
+  return (
+    <View style={tw('flex flex-col text-sm items-center gap-y-2 text-center')}>
+      <Text>{description}</Text>
+      <View style={tw('h-24 w-24')}>
+        <Image src={kit} />
+      </View>
+    </View>
+  );
+};
+
+const Kits = ({
+  homeKit,
+  homeGKKit,
+  awayKit,
+  awayGKKit,
+  refereeKit,
+}: KitsProps) => {
+  return (
+    <View style={tw('pt-6 flex flex-row items-center justify-around')}>
+      <Kit
+        kit={`data:image/png;base64,${homeKit}`}
+        description='Home Players'
+      />
+      <Kit
+        kit={`data:image/png;base64,${homeGKKit}`}
+        description='Home Goalkeeper'
+      />
+      <Kit kit={`data:image/png;base64,${refereeKit}`} description='Referees' />
+      <Kit
+        kit={`data:image/png;base64,${awayKit}`}
+        description='Away Players'
+      />
+      <Kit
+        kit={`data:image/png;base64,${awayGKKit}`}
+        description='Away Goalkeeper'
+      />
+    </View>
+  );
+};
+
 type GameNoticeProps = {
   header: HeaderProps;
   matchOfficials: MatchOfficialProps[];
+  kits: KitsProps;
 };
 
 export default function GameNotice({
   header,
   matchOfficials,
+  kits,
 }: GameNoticeProps) {
   return (
     <Document>
@@ -211,6 +267,13 @@ export default function GameNotice({
           matchId={header.matchId}
         />
         <GameNoticeMatchOfficials matchOfficials={matchOfficials} />
+        <Kits
+          homeKit={kits.homeKit}
+          homeGKKit={kits.homeGKKit}
+          awayKit={kits.awayKit}
+          awayGKKit={kits.awayGKKit}
+          refereeKit={kits.refereeKit}
+        />
       </Page>
     </Document>
   );
