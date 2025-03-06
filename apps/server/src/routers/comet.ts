@@ -55,7 +55,6 @@ export const cometRouter = createTRPCRouter({
           organizationIdFilter: process.env.COMET_LIVE_ORGANIZATION_ID,
         },
       });
-
       return data;
     }),
 

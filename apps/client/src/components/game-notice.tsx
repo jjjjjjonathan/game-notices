@@ -43,10 +43,6 @@ type HeaderProps = {
   matchId: number;
 };
 
-type GameNoticeProps = {
-  header: HeaderProps;
-};
-
 const GameNoticeHeader = ({
   competitionLogo,
   homeTeamLogo,
@@ -150,7 +146,57 @@ const GameNoticeHeader = ({
   );
 };
 
-export default function GameNotice({ header }: GameNoticeProps) {
+type MatchOfficialProps = {
+  name: string;
+  role: string;
+};
+
+const MatchOfficial = ({ name, role }: MatchOfficialProps) => {
+  return (
+    <View
+      style={tw(
+        'border border-solid rounded-lg border-slate-300 h-16 w-48 flex flex-col justify-between p-3',
+      )}
+    >
+      <Text>{name}</Text>
+      <Text style={tw('capitalize')}>{role}</Text>
+    </View>
+  );
+};
+
+type GameNoticeMatchOfficialsProps = {
+  matchOfficials: MatchOfficialProps[];
+};
+
+const GameNoticeMatchOfficials = ({
+  matchOfficials,
+}: GameNoticeMatchOfficialsProps) => {
+  return (
+    <View
+      style={tw(
+        'pt-6 flex flex-row items-center justify-between gap-x-2 text-xs text-center',
+      )}
+    >
+      {matchOfficials.map((matchOfficial) => (
+        <MatchOfficial
+          key={matchOfficial.name}
+          name={matchOfficial.name}
+          role={matchOfficial.role}
+        />
+      ))}
+    </View>
+  );
+};
+
+type GameNoticeProps = {
+  header: HeaderProps;
+  matchOfficials: MatchOfficialProps[];
+};
+
+export default function GameNotice({
+  header,
+  matchOfficials,
+}: GameNoticeProps) {
   return (
     <Document>
       <Page size='LETTER' style={tw('p-12 font-sans')}>
@@ -164,6 +210,7 @@ export default function GameNotice({ header }: GameNoticeProps) {
           dateTime={header.dateTime}
           matchId={header.matchId}
         />
+        <GameNoticeMatchOfficials matchOfficials={matchOfficials} />
       </Page>
     </Document>
   );

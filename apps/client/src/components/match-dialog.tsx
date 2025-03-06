@@ -148,6 +148,13 @@ const MatchDialog = ({
     },
   });
 
+  const matchOfficials = filterMatchOfficials(
+    additionalMatchDetails?.matchOfficials || [],
+  ).map((matchOfficial) => ({
+    name: matchOfficial.name,
+    role: matchOfficial.role,
+  }));
+
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger>Open</AlertDialogTrigger>
@@ -248,6 +255,7 @@ const MatchDialog = ({
                   dateTime: dateTime,
                   matchId: matchId,
                 }}
+                matchOfficials={matchOfficials}
               />
             }
           >
