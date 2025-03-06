@@ -259,9 +259,26 @@ type ContactProps = {
   emailAddress: string;
 };
 
-// const Contact = ({ role, name, phoneNumber, emailAddress }: ContactProps) => {
-
-// }
+const Contact = ({ role, name, phoneNumber, emailAddress }: ContactProps) => {
+  return (
+    <View style={tw('flex flex-row text-center')}>
+      <View style={tw('flex flex-row text-center')}>
+        <View style={tw('w-48')}>
+          <Text>{role}</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>{name}</Text>
+        </View>
+        <View style={tw('w-36')}>
+          <Text>{phoneNumber}</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>{emailAddress}</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
 
 const LineBreak = () => {
   return (
@@ -280,7 +297,21 @@ const LineBreak = () => {
   );
 };
 
-const Contacts = () => {
+type ContactsProps = {
+  gameDayManager: ContactProps;
+  homeTeamContact: ContactProps;
+  awayTeamContact: ContactProps;
+  mdoc: ContactProps;
+  cometSupport: ContactProps;
+};
+
+const Contacts = ({
+  gameDayManager,
+  homeTeamContact,
+  awayTeamContact,
+  mdoc,
+  cometSupport,
+}: ContactsProps) => {
   return (
     <View
       style={tw('pt-10 flex flex-col items-center text-xs mx-auto gap-y-3')}
@@ -300,80 +331,40 @@ const Contacts = () => {
         </View>
       </View>
       <LineBreak />
-      <View style={tw('flex flex-row text-center')}>
-        <View style={tw('w-48')}>
-          <Text>Game Day Manager</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>Jonathan Cheng</Text>
-        </View>
-        <View style={tw('w-36')}>
-          <Text>(123) 456-7890</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>jonathan.cheng@league1.ca</Text>
-        </View>
-      </View>
+      <Contact
+        role={gameDayManager.role}
+        name={gameDayManager.name}
+        phoneNumber={gameDayManager.phoneNumber}
+        emailAddress={gameDayManager.emailAddress}
+      />
       <LineBreak />
-      <View style={tw('flex flex-row text-center')}>
-        <View style={tw('w-48')}>
-          <Text>Home Team Contact</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>Jonathan Cheng</Text>
-        </View>
-        <View style={tw('w-36')}>
-          <Text>(123) 456-7890</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>jonathan.cheng@league1.ca</Text>
-        </View>
-      </View>
+      <Contact
+        role={homeTeamContact.role}
+        name={homeTeamContact.name}
+        phoneNumber={homeTeamContact.phoneNumber}
+        emailAddress={homeTeamContact.emailAddress}
+      />
       <LineBreak />
-      <View style={tw('flex flex-row text-center')}>
-        <View style={tw('w-48')}>
-          <Text>Away Team Contact</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>Jonathan Cheng</Text>
-        </View>
-        <View style={tw('w-36')}>
-          <Text>(123) 456-7890</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>jonathan.cheng@league1.ca</Text>
-        </View>
-      </View>
+      <Contact
+        role={awayTeamContact.role}
+        name={awayTeamContact.name}
+        phoneNumber={awayTeamContact.phoneNumber}
+        emailAddress={awayTeamContact.emailAddress}
+      />
       <LineBreak />
-      <View style={tw('flex flex-row text-center')}>
-        <View style={tw('w-48')}>
-          <Text>Match Day Coordinator</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>Jonathan Cheng</Text>
-        </View>
-        <View style={tw('w-36')}>
-          <Text>(123) 456-7890</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>jonathan.cheng@league1.ca</Text>
-        </View>
-      </View>
+      <Contact
+        role={mdoc.role}
+        name={mdoc.name}
+        phoneNumber={mdoc.phoneNumber}
+        emailAddress={mdoc.emailAddress}
+      />
       <LineBreak />
-      <View style={tw('flex flex-row text-center')}>
-        <View style={tw('w-48')}>
-          <Text>COMET On-call Support</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>Jonathan Cheng</Text>
-        </View>
-        <View style={tw('w-36')}>
-          <Text>(123) 456-7890</Text>
-        </View>
-        <View style={tw('w-48')}>
-          <Text>jonathan.cheng@league1.ca</Text>
-        </View>
-      </View>
+      <Contact
+        role={cometSupport.role}
+        name={cometSupport.name}
+        phoneNumber={cometSupport.phoneNumber}
+        emailAddress={cometSupport.emailAddress}
+      />
     </View>
   );
 };
@@ -382,12 +373,14 @@ type GameNoticeProps = {
   header: HeaderProps;
   matchOfficials: MatchOfficialProps[];
   kits: KitsProps;
+  contacts: ContactsProps;
 };
 
 export default function GameNotice({
   header,
   matchOfficials,
   kits,
+  contacts,
 }: GameNoticeProps) {
   return (
     <Document>
@@ -410,7 +403,13 @@ export default function GameNotice({
           awayGKKit={kits.awayGKKit}
           refereeKit={kits.refereeKit}
         />
-        <Contacts />
+        <Contacts
+          gameDayManager={contacts.gameDayManager}
+          homeTeamContact={contacts.homeTeamContact}
+          awayTeamContact={contacts.awayTeamContact}
+          mdoc={contacts.mdoc}
+          cometSupport={contacts.cometSupport}
+        />
       </Page>
     </Document>
   );

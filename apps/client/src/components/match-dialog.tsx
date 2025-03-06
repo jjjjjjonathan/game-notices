@@ -201,32 +201,42 @@ const MatchDialog = ({
               placeholder
             </Button>
           </form>
-          <PDFDownloadLink
-            document={
-              <GameNotice
-                header={{
-                  competitionLogo: competitionId,
-                  homeTeamLogo: homeTeamId,
-                  awayTeamLogo: awayTeamId,
-                  homeTeamName: homeTeamName,
-                  awayTeamName: awayTeamName,
-                  stadium: stadium,
-                  dateTime: dateTime,
-                  matchId: matchId,
-                }}
-                matchOfficials={matchOfficials}
-                kits={{
-                  homeKit: additionalMatchDetails?.homeKit || '',
-                  homeGKKit: additionalMatchDetails?.homeGKKit || '',
-                  awayKit: additionalMatchDetails?.awayKit || '',
-                  awayGKKit: additionalMatchDetails?.awayGKKit || '',
-                  refereeKit: additionalMatchDetails?.refereeKit || '',
-                }}
-              />
-            }
-          >
-            Download PDF
-          </PDFDownloadLink>
+          {additionalMatchDetails && matchDetailsSuccess ? (
+            <PDFDownloadLink
+              fileName={`${matchId}.pdf`}
+              document={
+                <GameNotice
+                  header={{
+                    competitionLogo: competitionId,
+                    homeTeamLogo: homeTeamId,
+                    awayTeamLogo: awayTeamId,
+                    homeTeamName: homeTeamName,
+                    awayTeamName: awayTeamName,
+                    stadium: stadium,
+                    dateTime: dateTime,
+                    matchId: matchId,
+                  }}
+                  matchOfficials={matchOfficials}
+                  kits={{
+                    homeKit: additionalMatchDetails?.homeKit || '',
+                    homeGKKit: additionalMatchDetails?.homeGKKit || '',
+                    awayKit: additionalMatchDetails?.awayKit || '',
+                    awayGKKit: additionalMatchDetails?.awayGKKit || '',
+                    refereeKit: additionalMatchDetails?.refereeKit || '',
+                  }}
+                  contacts={{
+                    gameDayManager: additionalMatchDetails.gameDayManager,
+                    homeTeamContact: additionalMatchDetails.homeTeamContact,
+                    awayTeamContact: additionalMatchDetails.awayTeamContact,
+                    mdoc: additionalMatchDetails.mdoc,
+                    cometSupport: additionalMatchDetails.cometSupport,
+                  }}
+                />
+              }
+            >
+              Download PDF
+            </PDFDownloadLink>
+          ) : null}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

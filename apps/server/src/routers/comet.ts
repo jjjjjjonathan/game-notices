@@ -9,6 +9,7 @@ import type {
 } from '../../utils/types';
 import { convertSvgToPng } from '../../utils/kits';
 import { uploadKit } from '../../utils/supabase';
+import { getContacts } from '../../utils/contacts';
 import { TRPCError } from '@trpc/server';
 
 dotenv.config();
@@ -66,6 +67,14 @@ export const cometRouter = createTRPCRouter({
           convertSvgToPng(data.refereeKit),
         ]);
 
+      const {
+        gameDayManager,
+        homeTeamContact,
+        awayTeamContact,
+        mdoc,
+        cometSupport,
+      } = getContacts(input.matchId);
+
       return {
         ...data,
         homeKit,
@@ -73,6 +82,11 @@ export const cometRouter = createTRPCRouter({
         awayKit,
         awayGKKit,
         refereeKit,
+        gameDayManager,
+        homeTeamContact,
+        awayTeamContact,
+        mdoc,
+        cometSupport,
       };
     }),
 
@@ -120,26 +134,26 @@ export const cometRouter = createTRPCRouter({
       };
     }),
 
-  getLogo: publicProcedure
-    .input(
-      z.object({
-        clubParentId: z.number(),
-      }),
-    )
-    .query(async ({ input }) => {
-      const url =
-        'https://comet.canadasoccer.com/data-backend/api/public/areports/run/0/1000/';
-      const { data }: { data: LogoData } = await axios({
-        url,
-        method: 'get',
-        params: {
-          API_KEY: process.env.CLUB_LOGO_API_KEY || '',
-          id: input.clubParentId,
-        },
-      });
+  // getLogo: publicProcedure
+  //   .input(
+  //     z.object({
+  //       clubParentId: z.number(),
+  //     }),
+  //   )
+  //   .query(async ({ input }) => {
+  //     const url =
+  //       'https://comet.canadasoccer.com/data-backend/api/public/areports/run/0/1000/';
+  //     const { data }: { data: LogoData } = await axios({
+  //       url,
+  //       method: 'get',
+  //       params: {
+  //         API_KEY: process.env.CLUB_LOGO_API_KEY || '',
+  //         id: input.clubParentId,
+  //       },
+  //     });
 
-      return data.results[0].logo;
-    }),
+  //     return data.results[0].logo;
+  //   }),
 
   // getLogos: publicProcedure.input(z.object({
   //   competitionId: z.number(),
