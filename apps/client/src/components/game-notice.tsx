@@ -12,7 +12,13 @@ import { createTw } from 'react-pdf-tailwind';
 
 Font.register({
   family: 'Roboto',
-  src: 'https://fonts.gstatic.com/s/roboto/v16/zN7GBFwfMP4uA6AR0HCoLQ.ttf',
+  fonts: [
+    { src: '/fonts/Roboto-Bold.ttf?url', fontWeight: 'bold' },
+    { src: '/fonts/Roboto-SemiBold.ttf?url', fontWeight: 'semibold' },
+    { src: '/fonts/Roboto-Light.ttf?url', fontWeight: 'light' },
+    { src: '/fonts/Roboto-Regular.ttf?url', fontWeight: 'normal' },
+    { src: '/fonts/Roboto-Medium.ttf?url', fontWeight: 'medium' },
+  ],
 });
 
 // The 'theme' object is your Tailwind theme config
@@ -90,8 +96,10 @@ const GameNoticeHeader = ({
           <View
             style={tw('h-20 w-36 flex flex-col items-center justify-between')}
           >
-            <Text style={tw('text-center pt-4')}>{homeTeamName}</Text>
-            <Text style={tw('text-center pb-4')}>Home</Text>
+            <Text style={tw('text-center pt-4 font-semibold')}>
+              {homeTeamName}
+            </Text>
+            <Text style={tw('text-center pb-4 font-light')}>Home</Text>
           </View>
           {/* Home Team Logo */}
           <Image
@@ -109,8 +117,10 @@ const GameNoticeHeader = ({
           <View
             style={tw('h-20 w-36 flex flex-col items-center justify-between')}
           >
-            <Text style={tw('text-center pt-4')}>{awayTeamName}</Text>
-            <Text style={tw('text-center pb-4')}>Away</Text>
+            <Text style={tw('text-center pt-4 font-semibold')}>
+              {awayTeamName}
+            </Text>
+            <Text style={tw('text-center pb-4 font-light')}>Away</Text>
           </View>
         </View>
       </View>
@@ -158,8 +168,8 @@ const MatchOfficial = ({ name, role }: MatchOfficialProps) => {
         'border border-solid rounded-lg border-slate-300 h-16 w-48 flex flex-col justify-between p-3',
       )}
     >
-      <Text>{name}</Text>
-      <Text style={tw('capitalize')}>{role}</Text>
+      <Text style={tw('font-medium')}>{name}</Text>
+      <Text style={tw('capitalize font-light')}>{role}</Text>
     </View>
   );
 };
@@ -242,6 +252,132 @@ const Kits = ({
   );
 };
 
+type ContactProps = {
+  role: string;
+  name: string;
+  phoneNumber: string;
+  emailAddress: string;
+};
+
+// const Contact = ({ role, name, phoneNumber, emailAddress }: ContactProps) => {
+
+// }
+
+const LineBreak = () => {
+  return (
+    <View>
+      <Svg height='10' width='500'>
+        <Line
+          x1='0'
+          y1='5'
+          x2='500'
+          y2='5'
+          strokeWidth={1}
+          stroke='rgb(211,211,211)'
+        />
+      </Svg>
+    </View>
+  );
+};
+
+const Contacts = () => {
+  return (
+    <View
+      style={tw('pt-10 flex flex-col items-center text-xs mx-auto gap-y-3')}
+    >
+      <View style={tw('flex flex-row text-center font-semibold')}>
+        <View style={tw('w-48')}>
+          <Text>Match Day Role</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>Name</Text>
+        </View>
+        <View style={tw('w-36')}>
+          <Text>Phone Number</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>Email Address</Text>
+        </View>
+      </View>
+      <LineBreak />
+      <View style={tw('flex flex-row text-center')}>
+        <View style={tw('w-48')}>
+          <Text>Game Day Manager</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>Jonathan Cheng</Text>
+        </View>
+        <View style={tw('w-36')}>
+          <Text>(123) 456-7890</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>jonathan.cheng@league1.ca</Text>
+        </View>
+      </View>
+      <LineBreak />
+      <View style={tw('flex flex-row text-center')}>
+        <View style={tw('w-48')}>
+          <Text>Home Team Contact</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>Jonathan Cheng</Text>
+        </View>
+        <View style={tw('w-36')}>
+          <Text>(123) 456-7890</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>jonathan.cheng@league1.ca</Text>
+        </View>
+      </View>
+      <LineBreak />
+      <View style={tw('flex flex-row text-center')}>
+        <View style={tw('w-48')}>
+          <Text>Away Team Contact</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>Jonathan Cheng</Text>
+        </View>
+        <View style={tw('w-36')}>
+          <Text>(123) 456-7890</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>jonathan.cheng@league1.ca</Text>
+        </View>
+      </View>
+      <LineBreak />
+      <View style={tw('flex flex-row text-center')}>
+        <View style={tw('w-48')}>
+          <Text>Match Day Coordinator</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>Jonathan Cheng</Text>
+        </View>
+        <View style={tw('w-36')}>
+          <Text>(123) 456-7890</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>jonathan.cheng@league1.ca</Text>
+        </View>
+      </View>
+      <LineBreak />
+      <View style={tw('flex flex-row text-center')}>
+        <View style={tw('w-48')}>
+          <Text>COMET On-call Support</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>Jonathan Cheng</Text>
+        </View>
+        <View style={tw('w-36')}>
+          <Text>(123) 456-7890</Text>
+        </View>
+        <View style={tw('w-48')}>
+          <Text>jonathan.cheng@league1.ca</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
 type GameNoticeProps = {
   header: HeaderProps;
   matchOfficials: MatchOfficialProps[];
@@ -274,6 +410,7 @@ export default function GameNotice({
           awayGKKit={kits.awayGKKit}
           refereeKit={kits.refereeKit}
         />
+        <Contacts />
       </Page>
     </Document>
   );
