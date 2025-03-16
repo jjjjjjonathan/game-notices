@@ -8,7 +8,8 @@
     "migrate": "drizzle-kit migrate",
     "generate": "drizzle-kit generate",
     "studio": "drizzle-kit studio --verbose",
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "add-referees": "ts-node addReferees.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
     "express": "^4.19.2",
     "nodemailer": "^6.9.13",
     "postgres": "^3.4.4",
+    "read-excel-file": "^5.8.7",
     "redaxios": "^0.5.1",
     "sharp": "^0.33.4",
     "zod": "^3.23.8"
