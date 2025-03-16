@@ -2,6 +2,7 @@ import { initTRPC, inferAsyncReturnType } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { db } from './db';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ export const createContext = ({
     process.env.SUPABASE_API_KEY || '',
   );
 
-  return { supabase };
+  return { supabase, db };
 };
 type Context = inferAsyncReturnType<typeof createContext>;
 

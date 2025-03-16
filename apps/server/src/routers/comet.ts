@@ -7,7 +7,9 @@ import type {
   MatchAdditionalDetails,
   LogoData,
 } from '../../utils/types';
+import { convertSvgToPng } from '../../utils/kits';
 import { uploadKit } from '../../utils/supabase';
+import { getContacts } from '../../utils/contacts';
 import { TRPCError } from '@trpc/server';
 
 dotenv.config();
@@ -56,7 +58,36 @@ export const cometRouter = createTRPCRouter({
         },
       });
 
-      return data;
+      const [homeKit, homeGKKit, awayKit, awayGKKit, refereeKit] =
+        await Promise.all([
+          convertSvgToPng(data.homeKit),
+          convertSvgToPng(data.homeGKKit),
+          convertSvgToPng(data.awayKit),
+          convertSvgToPng(data.awayGKKit),
+          convertSvgToPng(data.refereeKit),
+        ]);
+
+      const {
+        gameDayManager,
+        homeTeamContact,
+        awayTeamContact,
+        mdoc,
+        cometSupport,
+      } = getContacts(input.matchId);
+
+      return {
+        ...data,
+        homeKit,
+        homeGKKit,
+        awayKit,
+        awayGKKit,
+        refereeKit,
+        gameDayManager,
+        homeTeamContact,
+        awayTeamContact,
+        mdoc,
+        cometSupport,
+      };
     }),
 
   uploadKits: publicProcedure
@@ -102,25 +133,6 @@ export const cometRouter = createTRPCRouter({
         refereeKit,
       };
     }),
-
-  getLogo: publicProcedure
-    .input(
-      z.object({
-        clubParentId: z.number(),
-      }),
-    )
-    .query(async ({ input }) => {
-      const url =
-        'https://comet.canadasoccer.com/data-backend/api/public/areports/run/0/1000/';
-      const { data }: { data: LogoData } = await axios({
-        url,
-        method: 'get',
-        params: {
-          API_KEY: process.env.CLUB_LOGO_API_KEY || '',
-          id: input.clubParentId,
-        },
-      });
-
-      return data.results[0].logo;
-    }),
 });
+
+// https://jgalrtznvgegzlshobzj.supabase.co/storage/v1/object/public/logos/competitions/255517628.png

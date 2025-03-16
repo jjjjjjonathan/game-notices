@@ -17,11 +17,20 @@ import { toast } from 'sonner';
 // import { render } from 'jsx-email';
 // import { Template } from '@game-notices/transactional/templates/email';
 import type { Referee } from '@game-notices/transactional/components/Referees';
+import GameNotice from './game-notice';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 type MatchDialogProps = {
   matchId: number;
   homeParentId: number;
   awayParentId: number;
+  homeTeamId: number;
+  awayTeamId: number;
+  competitionId: number;
+  homeTeamName: string;
+  awayTeamName: string;
+  stadium: string;
+  dateTime: string;
 };
 
 type TeamKitRowProps = {
@@ -78,6 +87,13 @@ const MatchDialog = ({
   matchId,
   homeParentId,
   awayParentId,
+  competitionId,
+  homeTeamId,
+  awayTeamId,
+  homeTeamName,
+  awayTeamName,
+  stadium,
+  dateTime,
 }: MatchDialogProps) => {
   const [open, setOpen] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -93,29 +109,29 @@ const MatchDialog = ({
     },
   );
 
-  const {
-    data: homeLogo,
-    isSuccess: homeLogoSuccess,
-    fetchStatus: homeLogoFetchStatus,
-  } = trpc.comet.getLogo.useQuery(
-    { clubParentId: homeParentId },
-    { enabled: open },
-  );
+  // const {
+  //   data: homeLogo,
+  //   isSuccess: homeLogoSuccess,
+  //   fetchStatus: homeLogoFetchStatus,
+  // } = trpc.comet.getLogo.useQuery(
+  //   { clubParentId: homeParentId },
+  //   { enabled: open },
+  // );
 
-  const {
-    data: awayLogo,
-    isSuccess: awayLogoSuccess,
-    fetchStatus: awayLogoFetchStatus,
-  } = trpc.comet.getLogo.useQuery(
-    { clubParentId: awayParentId },
-    { enabled: open },
-  );
+  // const {
+  //   data: awayLogo,
+  //   isSuccess: awayLogoSuccess,
+  //   fetchStatus: awayLogoFetchStatus,
+  // } = trpc.comet.getLogo.useQuery(
+  //   { clubParentId: awayParentId },
+  //   { enabled: open },
+  // );
 
   const matchDetailsReady =
     matchDetailsSuccess && matchDetailsStatus === 'idle';
-  const homeLogoReady = homeLogoSuccess && homeLogoFetchStatus === 'idle';
-  const awayLogoReady = awayLogoSuccess && awayLogoFetchStatus === 'idle';
-  const readyToSend = matchDetailsReady && homeLogoReady && awayLogoReady;
+  // const homeLogoReady = homeLogoSuccess && homeLogoFetchStatus === 'idle';
+  // const awayLogoReady = awayLogoSuccess && awayLogoFetchStatus === 'idle';
+  // const readyToSend = matchDetailsReady && homeLogoReady && awayLogoReady;
 
   const { mutate: uploadKits } = trpc.comet.uploadKits.useMutation({
     onSuccess: (data) => {
@@ -132,6 +148,13 @@ const MatchDialog = ({
     },
   });
 
+  const matchOfficials = filterMatchOfficials(
+    additionalMatchDetails?.matchOfficials || [],
+  ).map((matchOfficial) => ({
+    name: matchOfficial.name,
+    role: matchOfficial.role,
+  }));
+
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger>Open</AlertDialogTrigger>
@@ -141,46 +164,6 @@ const MatchDialog = ({
           <AlertDialogDescription>
             These are the kits pulled from COMET.
           </AlertDialogDescription>
-          {readyToSend && (
-            <>
-              <TeamKitRow
-                isHome={true}
-                playerKit={additionalMatchDetails.homeKit}
-                goalkeeperKit={additionalMatchDetails.homeGKKit}
-              />
-              <TeamKitRow
-                isHome={false}
-                playerKit={additionalMatchDetails.awayKit}
-                goalkeeperKit={additionalMatchDetails.awayGKKit}
-              />
-              <section className='flex flex-row items-center justify-center'>
-                <div className='flex flex-col items-center'>
-                  <SVG
-                    src={additionalMatchDetails.refereeKit}
-                    width={42}
-                    height={66}
-                  />
-                  <p>Referees</p>
-                </div>
-              </section>
-              <section>
-                <p>{homeLogo}</p>
-                <p>{awayLogo}</p>
-              </section>
-              <section className='grid grid-cols-2 gap-2'>
-                {filterMatchOfficials(
-                  additionalMatchDetails.matchOfficials,
-                ).map((referee) => (
-                  <div key={referee.role}>
-                    <p>{referee.name}</p>
-                    <p>{referee.role}</p>
-                  </div>
-                ))}
-                <p>{homeParentId}</p>
-                <p>{awayParentId}</p>
-              </section>
-            </>
-          )}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -214,14 +197,46 @@ const MatchDialog = ({
               }
             }}
           >
-            <Button
-              disabled={!readyToSend || isSending}
-              variant='default'
-              type='submit'
-            >
-              {readyToSend ? 'Send game notices' : 'Waiting...'}
+            <Button disabled={true} variant='default' type='submit'>
+              placeholder
             </Button>
           </form>
+          {additionalMatchDetails && matchDetailsSuccess ? (
+            <PDFDownloadLink
+              fileName={`${matchId}.pdf`}
+              document={
+                <GameNotice
+                  header={{
+                    competitionLogo: competitionId,
+                    homeTeamLogo: homeTeamId,
+                    awayTeamLogo: awayTeamId,
+                    homeTeamName: homeTeamName,
+                    awayTeamName: awayTeamName,
+                    stadium: stadium,
+                    dateTime: dateTime,
+                    matchId: matchId,
+                  }}
+                  matchOfficials={matchOfficials}
+                  kits={{
+                    homeKit: additionalMatchDetails?.homeKit || '',
+                    homeGKKit: additionalMatchDetails?.homeGKKit || '',
+                    awayKit: additionalMatchDetails?.awayKit || '',
+                    awayGKKit: additionalMatchDetails?.awayGKKit || '',
+                    refereeKit: additionalMatchDetails?.refereeKit || '',
+                  }}
+                  contacts={{
+                    gameDayManager: additionalMatchDetails.gameDayManager,
+                    homeTeamContact: additionalMatchDetails.homeTeamContact,
+                    awayTeamContact: additionalMatchDetails.awayTeamContact,
+                    mdoc: additionalMatchDetails.mdoc,
+                    cometSupport: additionalMatchDetails.cometSupport,
+                  }}
+                />
+              }
+            >
+              Download PDF
+            </PDFDownloadLink>
+          ) : null}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
