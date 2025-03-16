@@ -133,35 +133,6 @@ export const cometRouter = createTRPCRouter({
         refereeKit,
       };
     }),
-
-  // getLogo: publicProcedure
-  //   .input(
-  //     z.object({
-  //       clubParentId: z.number(),
-  //     }),
-  //   )
-  //   .query(async ({ input }) => {
-  //     const url =
-  //       'https://comet.canadasoccer.com/data-backend/api/public/areports/run/0/1000/';
-  //     const { data }: { data: LogoData } = await axios({
-  //       url,
-  //       method: 'get',
-  //       params: {
-  //         API_KEY: process.env.CLUB_LOGO_API_KEY || '',
-  //         id: input.clubParentId,
-  //       },
-  //     });
-
-  //     return data.results[0].logo;
-  //   }),
-
-  // getLogos: publicProcedure.input(z.object({
-  //   competitionId: z.number(),
-  //   homeTeamId: z.number(),
-  //   awayTeamId: z.number()
-  // })).query(async ({ input }) => {
-
-  // })
 });
 
 // https://jgalrtznvgegzlshobzj.supabase.co/storage/v1/object/public/logos/competitions/255517628.png
