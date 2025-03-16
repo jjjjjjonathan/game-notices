@@ -47,6 +47,7 @@ type HeaderProps = {
   stadium: string;
   dateTime: string;
   matchId: number;
+  isBroadcasted: boolean;
 };
 
 const GameNoticeHeader = ({
@@ -58,6 +59,7 @@ const GameNoticeHeader = ({
   stadium,
   dateTime,
   matchId,
+  isBroadcasted,
 }: HeaderProps) => {
   return (
     <>
@@ -151,6 +153,11 @@ const GameNoticeHeader = ({
             stroke='rgb(211,211,211)'
           />
         </Svg>
+        {isBroadcasted ? (
+          <Text style={tw('text-xs font-medium')}>
+            This match will be broadcasted on League1 Ontario's YouTube channel.
+          </Text>
+        ) : null}
       </View>
     </>
   );
@@ -399,6 +406,7 @@ export default function GameNotice({
           stadium={header.stadium}
           dateTime={header.dateTime}
           matchId={header.matchId}
+          isBroadcasted={header.isBroadcasted}
         />
         <GameNoticeMatchOfficials matchOfficials={matchOfficials} />
         <Kits

@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useState } from 'react';
+import { Checkbox } from './ui/checkbox';
 
 type CometSupportOptions = {
   name: string;
@@ -69,6 +70,7 @@ const MatchRow = ({
   const date = convertTimestampToDate(dateTime);
   const formattedDate = format(date, DATE_DISPLAY_FORMAT, 'en');
   const [cometSupportName, setCometSupportName] = useState('Jonathan Cheng');
+  const [isBroadcasted, setIsBroadcasted] = useState(false);
 
   return (
     <TableRow>
@@ -77,6 +79,14 @@ const MatchRow = ({
       <TableCell>{formattedDate}</TableCell>
       <TableCell>{homeTeamName}</TableCell>
       <TableCell>{awayTeamName}</TableCell>
+      <TableCell>
+        <Checkbox
+          defaultChecked={false}
+          onCheckedChange={() => {
+            setIsBroadcasted((previous) => !previous);
+          }}
+        />
+      </TableCell>
       <TableCell>
         <Select onValueChange={setCometSupportName}>
           <SelectTrigger className='w-[180px]'>
@@ -104,6 +114,7 @@ const MatchRow = ({
           stadium={stadium}
           dateTime={formattedDate}
           cometSupportName={cometSupportName}
+          isBroadcasted={isBroadcasted}
         />
       </TableCell>
     </TableRow>
@@ -121,6 +132,7 @@ const MatchTable = ({ data, cometSupportOptions }: MatchTableProps) => {
             <TableHead>Date/Time</TableHead>
             <TableHead>Home Team</TableHead>
             <TableHead>Away Team</TableHead>
+            <TableHead>Broadcasted</TableHead>
             <TableHead>COMET Support</TableHead>
             <TableHead>PDF</TableHead>
           </TableRow>
