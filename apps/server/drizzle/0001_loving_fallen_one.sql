@@ -1,0 +1,1 @@
+ALTER TABLE "match_commissioners" ADD COLUMN "is_comet_support" boolean DEFAULT false;

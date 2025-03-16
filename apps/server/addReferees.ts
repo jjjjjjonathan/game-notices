@@ -14,4 +14,6 @@ readXlsxFile('./2025_L1ON_referees.xlsx').then(async (rows) => {
     .returning();
 
   console.log('These referees were added to the db:', addedReferees);
+
+  process.exit(0);
 });
