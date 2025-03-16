@@ -25,6 +25,7 @@ type MatchDialogProps = {
   stadium: string;
   dateTime: string;
   cometSupportName: string;
+  isBroadcasted: boolean;
 };
 
 type MatchOfficial = {
@@ -64,6 +65,7 @@ const MatchDialog = ({
   stadium,
   dateTime,
   cometSupportName,
+  isBroadcasted,
 }: MatchDialogProps) => {
   const [open, setOpen] = useState(false);
 
@@ -110,6 +112,7 @@ const MatchDialog = ({
                       stadium: stadium,
                       dateTime: dateTime,
                       matchId: matchId,
+                      isBroadcasted,
                     }}
                     matchOfficials={matchOfficials}
                     kits={{
