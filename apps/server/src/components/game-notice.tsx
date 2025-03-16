@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Page,
   Text,
@@ -374,7 +375,6 @@ type GameNoticeProps = {
   matchOfficials: MatchOfficialProps[];
   kits: KitsProps;
   contacts: ContactsProps;
-  startingState: boolean;
 };
 
 export default function GameNotice({
@@ -382,11 +382,7 @@ export default function GameNotice({
   matchOfficials,
   kits,
   contacts,
-  startingState,
 }: GameNoticeProps) {
-  if (startingState) {
-    return <Document />;
-  }
   return (
     <Document>
       <Page size='LETTER' style={tw('p-12 font-sans')}>

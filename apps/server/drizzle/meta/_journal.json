@@ -8,6 +8,27 @@
       "when": 1717208326996,
       "tag": "0000_noisy_turbo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1742090316232,
+      "tag": "0001_loving_fallen_one",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742092090610,
+      "tag": "0002_gorgeous_big_bertha",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1742092125435,
+      "tag": "0003_ambitious_joystick",
+      "breakpoints": true
     }
   ]
 }

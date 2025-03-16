@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, integer, boolean } from 'drizzle-orm/pg-core';
 
 export const referees = pgTable('referees', {
   id: integer('id').unique().primaryKey(),
@@ -9,6 +9,8 @@ export const matchCommissioners = pgTable('match_commissioners', {
   id: integer('id').unique().primaryKey(),
   email: text('email').notNull(),
   phoneNumber: text('phone_number').notNull(),
+  isCometSupport: boolean('is_comet_support').default(false),
+  name: text('name').notNull(),
 });
 
 export const contactRoles = pgTable('contact_roles', {

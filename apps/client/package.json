@@ -15,6 +15,7 @@
     "@game-notices/transactional": "workspace:*",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.0.2",
     "@react-pdf/renderer": "^4.3.0",
     "@react-pdf/types": "^2.9.0",
