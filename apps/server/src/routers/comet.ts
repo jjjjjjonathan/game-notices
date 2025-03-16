@@ -11,6 +11,8 @@ import { convertSvgToPng } from '../../utils/kits';
 import { uploadKit } from '../../utils/supabase';
 import { getContacts } from '../../utils/contacts';
 import { TRPCError } from '@trpc/server';
+import { matchCommissioners } from '../db/schema';
+import { asc, eq } from 'drizzle-orm';
 
 dotenv.config();
 
@@ -21,7 +23,7 @@ export const cometRouter = createTRPCRouter({
         date: z.string(),
       }),
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const url = `${process.env.COMET_LIVE_URL}/${process.env.COMET_LIVE_TENANT}/matchList/${input.date}/-4`;
 
       const { data }: { data: CometMatchData } = await axios({
@@ -35,7 +37,13 @@ export const cometRouter = createTRPCRouter({
         },
       });
 
-      return data;
+      const cometSupportOptions = await ctx.db
+        .select()
+        .from(matchCommissioners)
+        .where(eq(matchCommissioners.isCometSupport, true))
+        .orderBy(asc(matchCommissioners.id));
+
+      return { matches: data, cometSupportOptions };
     }),
 
   getAdditionalMatchDetails: publicProcedure
@@ -44,6 +52,7 @@ export const cometRouter = createTRPCRouter({
         matchId: z.number(),
         homeTeamId: z.number(),
         awayTeamId: z.number(),
+        cometSupportName: z.string(),
       }),
     )
     .query(async ({ input }) => {
@@ -83,6 +92,7 @@ export const cometRouter = createTRPCRouter({
         input.homeTeamId,
         input.awayTeamId,
         matchCommissioner.personId,
+        input.cometSupportName,
       );
 
       return {
@@ -99,50 +109,4 @@ export const cometRouter = createTRPCRouter({
         cometSupport,
       };
     }),
-
-  uploadKits: publicProcedure
-    .input(
-      z.object({
-        homeKit: z.object({
-          svg: z.string(),
-          name: z.string(),
-        }),
-        homeGKKit: z.object({
-          svg: z.string(),
-          name: z.string(),
-        }),
-        awayKit: z.object({
-          svg: z.string(),
-          name: z.string(),
-        }),
-        awayGKKit: z.object({
-          svg: z.string(),
-          name: z.string(),
-        }),
-        refereeKit: z.object({
-          svg: z.string(),
-          name: z.string(),
-        }),
-      }),
-    )
-    .mutation(async ({ input }) => {
-      const [homeKit, homeGKKit, awayKit, awayGKKit, refereeKit] =
-        await Promise.all([
-          uploadKit(input.homeKit.svg, input.homeKit.name),
-          uploadKit(input.homeGKKit.svg, input.homeGKKit.name),
-          uploadKit(input.awayKit.svg, input.awayKit.name),
-          uploadKit(input.awayGKKit.svg, input.awayGKKit.name),
-          uploadKit(input.refereeKit.svg, input.refereeKit.name),
-        ]);
-
-      return {
-        homeKit,
-        homeGKKit,
-        awayKit,
-        awayGKKit,
-        refereeKit,
-      };
-    }),
 });
-
-// https://jgalrtznvgegzlshobzj.supabase.co/storage/v1/object/public/logos/competitions/255517628.png

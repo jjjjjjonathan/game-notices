@@ -9,9 +9,27 @@ import {
 import type { CometMatchData } from '@game-notices/server/utils/types';
 import MatchDialog from '@/components/match-dialog';
 import { format } from '@formkit/tempo';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useState } from 'react';
+
+type CometSupportOptions = {
+  name: string;
+  id: number;
+  email: string;
+  phoneNumber: string;
+  isCometSupport: boolean | null;
+};
 
 type MatchTableProps = {
   data: CometMatchData;
+  cometSupportOptions: CometSupportOptions[];
 };
 
 type MatchRowProps = {
@@ -26,6 +44,7 @@ type MatchRowProps = {
   homeTeamId: number;
   awayTeamId: number;
   stadium: string;
+  cometSupportOptions: CometSupportOptions[];
 };
 
 const DATE_DISPLAY_FORMAT = 'ddd, MMM D, YYYY • h:mm a';
@@ -41,15 +60,15 @@ const MatchRow = ({
   awayTeamName,
   competitionName,
   dateTime,
-  homeParentId,
-  awayParentId,
   homeTeamId,
   awayTeamId,
   competitionId,
   stadium,
+  cometSupportOptions,
 }: MatchRowProps) => {
   const date = convertTimestampToDate(dateTime);
   const formattedDate = format(date, DATE_DISPLAY_FORMAT, 'en');
+  const [cometSupportName, setCometSupportName] = useState('Jonathan Cheng');
 
   return (
     <TableRow>
@@ -59,10 +78,24 @@ const MatchRow = ({
       <TableCell>{homeTeamName}</TableCell>
       <TableCell>{awayTeamName}</TableCell>
       <TableCell>
+        <Select onValueChange={setCometSupportName}>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='Select COMET Support' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {cometSupportOptions.map((option) => (
+                <SelectItem key={option.name} value={option.name}>
+                  {option.name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </TableCell>
+      <TableCell>
         <MatchDialog
           matchId={matchId}
-          homeParentId={homeParentId}
-          awayParentId={awayParentId}
           homeTeamId={homeTeamId}
           awayTeamId={awayTeamId}
           competitionId={competitionId}
@@ -70,13 +103,14 @@ const MatchRow = ({
           awayTeamName={awayTeamName}
           stadium={stadium}
           dateTime={formattedDate}
+          cometSupportName={cometSupportName}
         />
       </TableCell>
     </TableRow>
   );
 };
 
-const MatchTable = ({ data }: MatchTableProps) => {
+const MatchTable = ({ data, cometSupportOptions }: MatchTableProps) => {
   return (
     <>
       <Table>
@@ -87,7 +121,8 @@ const MatchTable = ({ data }: MatchTableProps) => {
             <TableHead>Date/Time</TableHead>
             <TableHead>Home Team</TableHead>
             <TableHead>Away Team</TableHead>
-            <TableHead>Something</TableHead>
+            <TableHead>COMET Support</TableHead>
+            <TableHead>PDF</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -105,6 +140,7 @@ const MatchTable = ({ data }: MatchTableProps) => {
               homeParentId={match.homeTeam.parent?.id || 0}
               awayParentId={match.awayTeam.parent?.id || 0}
               stadium={match.facility.name || ''}
+              cometSupportOptions={cometSupportOptions}
             />
           ))}
         </TableBody>

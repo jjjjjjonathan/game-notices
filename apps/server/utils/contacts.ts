@@ -1,28 +1,28 @@
 import { eq, or } from 'drizzle-orm';
 import { db } from '../src/db';
 import { contacts, matchCommissioners } from '../src/db/schema';
-const names = ['Jonathan Cheng', 'Dino Rossi', 'Chris Keem', 'Lorin Berballa'];
-
-const emails = [
-  'test1@league1.ca',
-  'test2@league1.ca',
-  'test3@league1.ca',
-  'test4@league1.ca',
-];
 
 export const getContacts = async (
   homeTeamId: number,
   awayTeamId: number,
   mdocId: number,
+  cometSupportName: string,
 ) => {
-  const [mdoc] = await db
-    .select({
-      name: matchCommissioners.name,
-      email: matchCommissioners.email,
-      phone: matchCommissioners.phoneNumber,
-    })
+  const cometPeople = await db
+    .select()
     .from(matchCommissioners)
-    .where(eq(matchCommissioners.id, mdocId));
+    .where(
+      or(
+        eq(matchCommissioners.id, mdocId),
+        eq(matchCommissioners.name, cometSupportName),
+      ),
+    );
+
+  const mdoc = cometPeople.find((person) => person.id === mdocId);
+
+  const cometSupport = cometPeople.find(
+    (person) => person.name === cometSupportName,
+  );
 
   const teamContacts = await db
     .select()
@@ -64,15 +64,15 @@ export const getContacts = async (
     },
     mdoc: {
       role: 'Match Day Coordinator',
-      name: mdoc.name || '',
-      phoneNumber: mdoc.phone || '',
-      emailAddress: mdoc.email || '',
+      name: mdoc?.name || '',
+      phoneNumber: mdoc?.phoneNumber || '',
+      emailAddress: mdoc?.email || '',
     },
     cometSupport: {
       role: 'COMET Support',
-      name: names[Math.floor(Math.random() * names.length)] || '',
-      phoneNumber: '(123) 456-7890',
-      emailAddress: emails[Math.floor(Math.random() * emails.length)] || '',
+      name: cometSupport?.name || '',
+      phoneNumber: cometSupport?.phoneNumber || '',
+      emailAddress: cometSupport?.email || '',
     },
   };
 };
