@@ -42,6 +42,8 @@ export const cometRouter = createTRPCRouter({
     .input(
       z.object({
         matchId: z.number(),
+        homeTeamId: z.number(),
+        awayTeamId: z.number(),
       }),
     )
     .query(async ({ input }) => {
@@ -58,6 +60,10 @@ export const cometRouter = createTRPCRouter({
         },
       });
 
+      const [matchCommissioner] = data.matchOfficials.filter(
+        (matchOfficial) => matchOfficial.role === 'Match commissioner',
+      );
+
       const [homeKit, homeGKKit, awayKit, awayGKKit, refereeKit] =
         await Promise.all([
           convertSvgToPng(data.homeKit),
@@ -73,7 +79,11 @@ export const cometRouter = createTRPCRouter({
         awayTeamContact,
         mdoc,
         cometSupport,
-      } = getContacts(input.matchId);
+      } = await getContacts(
+        input.homeTeamId,
+        input.awayTeamId,
+        matchCommissioner.personId,
+      );
 
       return {
         ...data,

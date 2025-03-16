@@ -10,6 +10,7 @@ export const matchCommissioners = pgTable('match_commissioners', {
   email: text('email').notNull(),
   phoneNumber: text('phone_number').notNull(),
   isCometSupport: boolean('is_comet_support').default(false),
+  name: text('name').notNull(),
 });
 
 export const contactRoles = pgTable('contact_roles', {

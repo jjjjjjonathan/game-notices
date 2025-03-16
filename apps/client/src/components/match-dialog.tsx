@@ -103,7 +103,7 @@ const MatchDialog = ({
     isSuccess: matchDetailsSuccess,
     fetchStatus: matchDetailsStatus,
   } = trpc.comet.getAdditionalMatchDetails.useQuery(
-    { matchId },
+    { matchId, homeTeamId, awayTeamId },
     {
       enabled: open,
     },

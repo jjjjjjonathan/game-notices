@@ -1,0 +1,1 @@
+ALTER TABLE "match_commissioners" ADD COLUMN "name" text;

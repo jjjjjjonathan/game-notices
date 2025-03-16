@@ -1,0 +1,1 @@
+ALTER TABLE "match_commissioners" ALTER COLUMN "name" SET NOT NULL;
