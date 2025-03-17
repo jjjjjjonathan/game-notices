@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '../trpc';
+import { TRPCError } from '@trpc/server';
 
 const BUCKET = 'pdf-notices';
 
@@ -10,7 +11,20 @@ export const storageRouter = createTRPCRouter({
         id: z.number(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {}),
+    .mutation(async ({ input, ctx }) => {
+      const { data, error } = await ctx.supabase.storage
+        .from(BUCKET)
+        .createSignedUploadUrl(`match-notices/${input.id}.pdf`);
+
+      if (data) {
+        return data.token;
+      } else {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: error.message,
+        });
+      }
+    }),
 
   getSignedUrl: publicProcedure
     .input(

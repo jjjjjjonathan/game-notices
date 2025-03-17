@@ -14,6 +14,13 @@ import { trpc } from '@/utils/trpc';
 import type { Referee } from '@game-notices/transactional/components/Referees';
 import GameNotice from './game-notice';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import Dropzone from 'shadcn-dropzone';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  'https://jgalrtznvgegzlshobzj.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpnYWxydHpudmdlZ3psc2hvYnpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk2MzY3NTIsImV4cCI6MjA1NTIxMjc1Mn0.nBZxe68xUTkiB5edzhHEk7NJZvYaJ33z2sJerhuAfxI',
+);
 
 type MatchDialogProps = {
   matchId: number;
@@ -84,6 +91,22 @@ const MatchDialog = ({
     role: matchOfficial.role,
   }));
 
+  const [fileToUpload, setFileToUpload] = useState<File | null>(null);
+
+  const { mutate } = trpc.storage.storeMatchNotice.useMutation({
+    onSuccess: async (token) => {
+      const { data } = await supabase.storage
+        .from('pdf-notices')
+        .uploadToSignedUrl(
+          `match-notices/${matchId}.pdf`,
+          token,
+          fileToUpload as File,
+        );
+
+      console.log(data);
+    },
+  });
+
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger>Open</AlertDialogTrigger>
@@ -94,9 +117,14 @@ const MatchDialog = ({
             These are the kits pulled from COMET.
           </AlertDialogDescription>
         </AlertDialogHeader>
+        <Dropzone
+          onDrop={(acceptedFiles) => {
+            setFileToUpload(acceptedFiles[0] as File);
+          }}
+        />
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button>
+          <Button disabled={!additionalMatchDetails || !matchDetailsSuccess}>
             {additionalMatchDetails && matchDetailsSuccess ? (
               <PDFDownloadLink
                 fileName={`${matchId}.pdf`}
@@ -134,7 +162,17 @@ const MatchDialog = ({
               >
                 Download PDF
               </PDFDownloadLink>
-            ) : null}
+            ) : (
+              'Creating PDF'
+            )}
+          </Button>
+          <Button
+            disabled={!fileToUpload}
+            onClick={() => {
+              mutate({ id: matchId });
+            }}
+          >
+            Upload PDF
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
