@@ -13,6 +13,13 @@ export const createContext = ({
   const supabase = createClient(
     process.env.SUPABASE_URL || '',
     process.env.SUPABASE_API_KEY || '',
+    {
+      global: {
+        headers: {
+          Authorization: process.env.SUPABASE_SERVICE_KEY || '',
+        },
+      },
+    },
   );
 
   return { supabase, db };
