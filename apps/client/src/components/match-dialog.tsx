@@ -32,7 +32,8 @@ type MatchDialogProps = {
   stadium: string;
   dateTime: string;
   cometSupportName: string;
-  isBroadcasted: boolean;
+  isLeagueHosted: boolean;
+  competitionName: string;
 };
 
 type MatchOfficial = {
@@ -58,7 +59,11 @@ const filterMatchOfficials = (matchOfficials: MatchOfficial[]) => {
     .filter((matchOfficial) => referees.includes(matchOfficial.role))
     .map(
       (referee) =>
-        ({ role: referee.role, name: referee.shortName }) satisfies Referee,
+        ({
+          role: referee.role,
+          name: referee.shortName,
+          id: referee.personId,
+        }) satisfies Referee,
     );
 };
 
@@ -72,13 +77,14 @@ const MatchDialog = ({
   stadium,
   dateTime,
   cometSupportName,
-  isBroadcasted,
+  isLeagueHosted,
+  competitionName,
 }: MatchDialogProps) => {
   const [open, setOpen] = useState(false);
 
   const { data: additionalMatchDetails, isSuccess: matchDetailsSuccess } =
     trpc.comet.getAdditionalMatchDetails.useQuery(
-      { matchId, homeTeamId, awayTeamId, cometSupportName },
+      { matchId, homeTeamId, awayTeamId, cometSupportName, isLeagueHosted },
       {
         enabled: open,
       },
@@ -87,6 +93,7 @@ const MatchDialog = ({
   const matchOfficials = filterMatchOfficials(
     additionalMatchDetails?.matchOfficials || [],
   ).map((matchOfficial) => ({
+    id: matchOfficial.id,
     name: matchOfficial.name,
     role: matchOfficial.role,
   }));
@@ -107,6 +114,12 @@ const MatchDialog = ({
     },
   });
 
+  const { mutate: sendNotice } = trpc.storage.sendNotice.useMutation({
+    onSuccess: () => {
+      console.log('emails sent');
+    },
+  });
+
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger>Open</AlertDialogTrigger>
@@ -114,7 +127,7 @@ const MatchDialog = ({
         <AlertDialogHeader>
           <AlertDialogTitle>{matchId}</AlertDialogTitle>
           <AlertDialogDescription>
-            These are the kits pulled from COMET.
+            Wait for the PDF to generate, download it, and then upload it.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Dropzone
@@ -140,7 +153,7 @@ const MatchDialog = ({
                       stadium: stadium,
                       dateTime: dateTime,
                       matchId: matchId,
-                      isBroadcasted,
+                      isBroadcasted: false,
                     }}
                     matchOfficials={matchOfficials}
                     kits={{
@@ -173,6 +186,28 @@ const MatchDialog = ({
             }}
           >
             Upload PDF
+          </Button>
+          <Button
+            disabled={!fileToUpload}
+            onClick={() => {
+              sendNotice({
+                id: matchId,
+                homeTeamId,
+                awayTeamId,
+                mdocEmail: additionalMatchDetails?.mdoc.emailAddress,
+                cometSupportEmail:
+                  additionalMatchDetails?.cometSupport.emailAddress,
+                refereeIds: matchOfficials.map(
+                  (matchOfficial) => matchOfficial.id,
+                ),
+                homeTeamName,
+                awayTeamName,
+                dateTime,
+                competitionName,
+              });
+            }}
+          >
+            Send notice
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

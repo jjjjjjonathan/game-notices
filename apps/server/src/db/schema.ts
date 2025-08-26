@@ -30,3 +30,18 @@ export const contacts = pgTable('contacts', {
     })
     .notNull(),
 });
+
+export const people = pgTable('people', {
+  id: serial('id').primaryKey(),
+  name: text('name'),
+  email: text('email').notNull(),
+  phoneNumber: text('phone_number'),
+  cometId: integer('comet_id'),
+  teamId: integer('team_id'),
+  isCometSupport: boolean('is_comet_support').notNull().default(false),
+  contactRoleId: integer('contact_role_id')
+    .references(() => contactRoles.id, {
+      onDelete: 'cascade',
+    })
+    .notNull(),
+});

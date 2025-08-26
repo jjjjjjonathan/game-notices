@@ -3,6 +3,7 @@ import { Section, Heading, Row, Column, Text } from 'jsx-email';
 export type Referee = {
   role: string;
   name: string;
+  id: number;
 };
 
 export type RefereesProps = {
@@ -39,6 +40,7 @@ const Referees = ({ referees }: RefereesProps) => (
           role={referee.role}
           name={referee.name}
           key={referee.role}
+          id={referee.id}
         />
       ))}
     </Section>

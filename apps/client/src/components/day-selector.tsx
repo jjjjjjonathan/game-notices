@@ -6,7 +6,7 @@ import { trpc } from '@/utils/trpc';
 
 const DaySelector = () => {
   const [date, setDate] = useState<Date | undefined>(
-    dayStart(addDay(new Date(), 2)),
+    dayStart(addDay(new Date(), 4)),
   );
 
   const { data, isSuccess } = trpc.comet.getMatches.useQuery({

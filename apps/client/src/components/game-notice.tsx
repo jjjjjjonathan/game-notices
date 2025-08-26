@@ -105,14 +105,14 @@ const GameNoticeHeader = ({
           </View>
           {/* Home Team Logo */}
           <Image
-            src={`${LOGOS_URL}teams/${homeTeamLogo}.png`}
+            src={`${LOGOS_URL}clubs/${homeTeamLogo}.png`}
             style={tw('h-20 w-20')}
           />
         </View>
         <View style={tw('flex flex-row text-xs items-center justify-start')}>
           {/* Away Team Logo */}
           <Image
-            src={`${LOGOS_URL}teams/${awayTeamLogo}.png`}
+            src={`${LOGOS_URL}clubs/${awayTeamLogo}.png`}
             style={tw('h-20 w-20')}
           />
           {/* Away Team Name */}
@@ -270,7 +270,7 @@ const Contact = ({ role, name, phoneNumber, emailAddress }: ContactProps) => {
   return (
     <View style={tw('flex flex-row text-center')}>
       <View style={tw('flex flex-row text-center')}>
-        <View style={tw('w-48')}>
+        <View style={tw('w-36')}>
           <Text>{role}</Text>
         </View>
         <View style={tw('w-48')}>
@@ -279,7 +279,7 @@ const Contact = ({ role, name, phoneNumber, emailAddress }: ContactProps) => {
         <View style={tw('w-36')}>
           <Text>{phoneNumber}</Text>
         </View>
-        <View style={tw('w-48')}>
+        <View style={tw('w-56')}>
           <Text>{emailAddress}</Text>
         </View>
       </View>
@@ -324,7 +324,7 @@ const Contacts = ({
       style={tw('pt-10 flex flex-col items-center text-xs mx-auto gap-y-3')}
     >
       <View style={tw('flex flex-row text-center font-semibold')}>
-        <View style={tw('w-48')}>
+        <View style={tw('w-36')}>
           <Text>Match Day Role</Text>
         </View>
         <View style={tw('w-48')}>
@@ -333,7 +333,7 @@ const Contacts = ({
         <View style={tw('w-36')}>
           <Text>Phone Number</Text>
         </View>
-        <View style={tw('w-48')}>
+        <View style={tw('w-56')}>
           <Text>Email Address</Text>
         </View>
       </View>
