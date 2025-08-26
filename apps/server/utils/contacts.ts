@@ -1,45 +1,45 @@
 import { eq, or } from 'drizzle-orm';
 import { db } from '../src/db';
-import { contacts, matchCommissioners } from '../src/db/schema';
+import { people } from '../src/db/schema';
 
 export const getContacts = async (
   homeTeamId: number,
   awayTeamId: number,
-  mdocId: number,
+  mdocId: number | undefined,
   cometSupportName: string,
+  isLeagueHosted: boolean,
 ) => {
   const cometPeople = await db
     .select()
-    .from(matchCommissioners)
+    .from(people)
     .where(
       or(
-        eq(matchCommissioners.id, mdocId),
-        eq(matchCommissioners.name, cometSupportName),
+        eq(people.cometId, mdocId || 0),
+        eq(people.name, cometSupportName),
+        eq(people.teamId, homeTeamId),
+        eq(people.teamId, awayTeamId),
+        eq(people.name, 'Jonathan Cheng'),
       ),
     );
 
-  const mdoc = cometPeople.find((person) => person.id === mdocId);
+  const mdoc = cometPeople.find((person) => person.cometId === mdocId);
 
   const cometSupport = cometPeople.find(
     (person) => person.name === cometSupportName,
   );
 
-  const teamContacts = await db
-    .select()
-    .from(contacts)
-    .where(
-      or(eq(contacts.teamId, homeTeamId), eq(contacts.teamId, awayTeamId)),
-    );
+  const gameDayManager = isLeagueHosted
+    ? cometPeople.find((contact) => contact.name === 'Jonathan Cheng')
+    : cometPeople.find(
+        (contact) =>
+          contact.contactRoleId === 1 && contact.teamId === homeTeamId,
+      );
 
-  const gameDayManager = teamContacts.find(
-    (contact) => contact.contactRoleId === 1 && contact.teamId === homeTeamId,
-  );
-
-  const homeTeamContact = teamContacts.find(
+  const homeTeamContact = cometPeople.find(
     (contact) => contact.contactRoleId === 2 && contact.teamId === homeTeamId,
   );
 
-  const awayTeamContact = teamContacts.find(
+  const awayTeamContact = cometPeople.find(
     (contact) => contact.contactRoleId === 2 && contact.teamId === awayTeamId,
   );
 
@@ -69,7 +69,7 @@ export const getContacts = async (
       emailAddress: mdoc?.email || '',
     },
     cometSupport: {
-      role: 'COMET Support',
+      role: 'MDOC/COMET Support',
       name: cometSupport?.name || '',
       phoneNumber: cometSupport?.phoneNumber || '',
       emailAddress: cometSupport?.email || '',

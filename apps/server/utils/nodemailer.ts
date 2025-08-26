@@ -4,12 +4,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+  host: 'smtp.useplunk.com',
   port: 465,
   secure: true,
   auth: {
-    user: process.env.EMAIL_APP_ADDRESS,
-    pass: process.env.EMAIL_APP_PASSWORD,
+    user: 'plunk',
+    pass: process.env.SMTP_PASSWORD,
   },
   pool: true,
 });

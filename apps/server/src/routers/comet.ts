@@ -11,8 +11,8 @@ import { convertSvgToPng } from '../../utils/kits';
 import { uploadKit } from '../../utils/supabase';
 import { getContacts } from '../../utils/contacts';
 import { TRPCError } from '@trpc/server';
-import { matchCommissioners } from '../db/schema';
-import { asc, eq } from 'drizzle-orm';
+import { people, matchCommissioners } from '../db/schema';
+import { asc, eq, and } from 'drizzle-orm';
 
 dotenv.config();
 
@@ -39,9 +39,11 @@ export const cometRouter = createTRPCRouter({
 
       const cometSupportOptions = await ctx.db
         .select()
-        .from(matchCommissioners)
-        .where(eq(matchCommissioners.isCometSupport, true))
-        .orderBy(asc(matchCommissioners.id));
+        .from(people)
+        .where(
+          and(eq(people.isCometSupport, true), eq(people.contactRoleId, 3)),
+        )
+        .orderBy(asc(people.id));
 
       return { matches: data, cometSupportOptions };
     }),
@@ -53,6 +55,7 @@ export const cometRouter = createTRPCRouter({
         homeTeamId: z.number(),
         awayTeamId: z.number(),
         cometSupportName: z.string(),
+        isLeagueHosted: z.boolean(),
       }),
     )
     .query(async ({ input }) => {
@@ -91,8 +94,9 @@ export const cometRouter = createTRPCRouter({
       } = await getContacts(
         input.homeTeamId,
         input.awayTeamId,
-        matchCommissioner.personId,
+        matchCommissioner ? matchCommissioner.personId : 0,
         input.cometSupportName,
+        input.isLeagueHosted,
       );
 
       return {

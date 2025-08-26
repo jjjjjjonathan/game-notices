@@ -70,7 +70,7 @@ const MatchRow = ({
   const date = convertTimestampToDate(dateTime);
   const formattedDate = format(date, DATE_DISPLAY_FORMAT, 'en');
   const [cometSupportName, setCometSupportName] = useState('Jonathan Cheng');
-  const [isBroadcasted, setIsBroadcasted] = useState(false);
+  const [isLeagueHosted, setIsLeagueHosted] = useState(false);
 
   return (
     <TableRow>
@@ -83,7 +83,7 @@ const MatchRow = ({
         <Checkbox
           defaultChecked={false}
           onCheckedChange={() => {
-            setIsBroadcasted((previous) => !previous);
+            setIsLeagueHosted((previous) => !previous);
           }}
         />
       </TableCell>
@@ -105,6 +105,7 @@ const MatchRow = ({
       </TableCell>
       <TableCell>
         <MatchDialog
+          competitionName={competitionName}
           matchId={matchId}
           homeTeamId={homeTeamId}
           awayTeamId={awayTeamId}
@@ -114,7 +115,7 @@ const MatchRow = ({
           stadium={stadium}
           dateTime={formattedDate}
           cometSupportName={cometSupportName}
-          isBroadcasted={isBroadcasted}
+          isLeagueHosted={isLeagueHosted}
         />
       </TableCell>
     </TableRow>
@@ -132,7 +133,7 @@ const MatchTable = ({ data, cometSupportOptions }: MatchTableProps) => {
             <TableHead>Date/Time</TableHead>
             <TableHead>Home Team</TableHead>
             <TableHead>Away Team</TableHead>
-            <TableHead>Broadcasted</TableHead>
+            <TableHead>League Hosted</TableHead>
             <TableHead>COMET Support</TableHead>
             <TableHead>PDF</TableHead>
           </TableRow>
