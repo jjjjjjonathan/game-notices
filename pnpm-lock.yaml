@@ -3,6 +3,8 @@ lockfileVersion: '9.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
+  injectWorkspacePackages:
+    - true
 
 importers:
 
@@ -41,9 +43,6 @@ importers:
       '@game-notices/server':
         specifier: workspace:*
         version: link:../server
-      '@game-notices/transactional':
-        specifier: workspace:*
-        version: link:../../packages/transactional
       '@radix-ui/react-alert-dialog':
         specifier: ^1.0.5
         version: 1.0.5(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -180,6 +179,9 @@ importers:
       '@trpc/server':
         specifier: ^10.45.2
         version: 10.45.2
+      '@types/react':
+        specifier: ^18.2.66
+        version: 18.3.1
       base64-arraybuffer:
         specifier: ^1.0.2
         version: 1.0.2
@@ -237,22 +239,6 @@ importers:
         version: 10.9.2(@types/node@20.12.11)(typescript@5.4.5)
       typescript:
         specifier: ^5.4.5
-        version: 5.4.5
-
-  packages/transactional:
-    dependencies:
-      jsx-email:
-        specifier: ^1.10.11
-        version: 1.12.1(@jsx-email/app-preview@1.2.6(@types/node@20.12.11)(@types/react-dom@18.3.0)(@types/react@18.3.1)(react@18.3.1)(rollup@4.17.2)(ts-node@10.9.2(@types/node@20.12.11)(typescript@5.4.5)))(@types/node@20.12.11)(@types/react@18.3.1)(react@18.3.1)(rollup@4.17.2)
-    devDependencies:
-      '@types/react':
-        specifier: ^18.2.0
-        version: 18.3.1
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      typescript:
-        specifier: ^5.2.2
         version: 5.4.5
 
 packages:

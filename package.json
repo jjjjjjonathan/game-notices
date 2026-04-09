@@ -9,7 +9,8 @@
     "client": "pnpm --filter @game-notices/client",
     "email": "pnpm --filter @game-notices/transactional",
     "server": "pnpm --filter @game-notices/server",
-    "dev": "pnpm --parallel -r dev"
+    "dev": "pnpm --parallel -r dev",
+    "start": "pnpm --parallel -r start"
   },
   "keywords": [],
   "author": "",

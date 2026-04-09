@@ -9,15 +9,18 @@
     "generate": "drizzle-kit generate",
     "studio": "drizzle-kit studio --verbose",
     "build": "tsc --build",
-    "add-referees": "ts-node addReferees.ts"
+    "add-referees": "ts-node addReferees.ts",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "injectWorkspacePackages": true,
   "dependencies": {
     "@formkit/tempo": "^0.1.1",
     "@supabase/supabase-js": "^2.43.4",
     "@trpc/server": "^10.45.2",
+    "@types/react": "^18.2.66",
     "base64-arraybuffer": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
