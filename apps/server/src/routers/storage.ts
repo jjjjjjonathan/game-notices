@@ -115,12 +115,14 @@ export const storageRouter = createTRPCRouter({
               },
               body: JSON.stringify({
                 to: emailAddresses.slice(i, i + 5),
+                // to: ['jonathan.cheng@premiersoccerleagues.ca', 'jonathan.cheng@cplsoccer.com'],
                 subject: `Game Notice for match #${input.id}`,
+                reply: 'lorin.berballa@premiersoccerleagues.ca',
                 body: `<p>A game notice has been generated for a ${input.competitionName} match between ${input.homeTeamName} and ${input.awayTeamName} for ${input.dateTime}. The following download link will expire in 5 days.</p>
 
                 <a href=${data.signedUrl}>${data.signedUrl}</a>
 
-                <p>Please contact Lorin Berballa (lorin.berballa@league1.ca), Chris Keem (chris.keem@league1.ca) and Jonathan Cheng (jonathan.cheng@league1.ca) if you have any questions.</p>`,
+                <p>Please contact Lorin Berballa (lorin.berballa@premiersoccerleagues.ca) if you have any questions.</p>`,
               }),
             };
             await fetch('https://api.useplunk.com/v1/send', options)

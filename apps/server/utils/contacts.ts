@@ -18,7 +18,7 @@ export const getContacts = async (
         eq(people.name, cometSupportName),
         eq(people.teamId, homeTeamId),
         eq(people.teamId, awayTeamId),
-        eq(people.name, 'Jonathan Cheng'),
+        eq(people.name, 'Lorin Berballa'),
       ),
     );
 
@@ -29,7 +29,7 @@ export const getContacts = async (
   );
 
   const gameDayManager = isLeagueHosted
-    ? cometPeople.find((contact) => contact.name === 'Jonathan Cheng')
+    ? cometPeople.find((contact) => contact.name === 'Lorin Berballa')
     : cometPeople.find(
         (contact) =>
           contact.contactRoleId === 1 && contact.teamId === homeTeamId,

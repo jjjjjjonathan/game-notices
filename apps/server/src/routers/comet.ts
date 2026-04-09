@@ -73,7 +73,7 @@ export const cometRouter = createTRPCRouter({
       });
 
       const [matchCommissioner] = data.matchOfficials.filter(
-        (matchOfficial) => matchOfficial.role === 'Match commissioner',
+        (matchOfficial) => matchOfficial.role === 'Match coordinator',
       );
 
       const [homeKit, homeGKKit, awayKit, awayGKKit, refereeKit] =
@@ -94,7 +94,7 @@ export const cometRouter = createTRPCRouter({
       } = await getContacts(
         input.homeTeamId,
         input.awayTeamId,
-        matchCommissioner ? matchCommissioner.personId : 0,
+        matchCommissioner ? matchCommissioner.personId : -1,
         input.cometSupportName,
         input.isLeagueHosted,
       );
