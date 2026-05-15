@@ -50,9 +50,9 @@ type MatchOfficial = {
 const filterMatchOfficials = (matchOfficials: MatchOfficial[]) => {
   const referees = [
     'Referee',
-    '1st assistant referee',
-    '2nd assistant referee',
-    'Fourth official',
+    '1st Assistant Referee',
+    '2nd Assistant Referee',
+    '4th Official',
   ];
 
   return matchOfficials
