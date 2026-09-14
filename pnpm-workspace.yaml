@@ -4,3 +4,6 @@ syncInjectedDepsAfterScripts:
   - build
 injectWorkspacePackages:
   - true
+allowBuilds:
+  esbuild: true
+  sharp: true
