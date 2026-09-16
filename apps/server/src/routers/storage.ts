@@ -123,9 +123,10 @@ export const storageRouter = createTRPCRouter({
                 <a href=${data.signedUrl}>${data.signedUrl}</a>
 
                 <p>Please contact Lorin Berballa (lorin.berballa@premiersoccerleagues.ca) if you have any questions.</p>`,
+                from: 'jonathan.cheng@premiersoccerleagues.ca',
               }),
             };
-            await fetch('https://api.useplunk.com/v1/send', options)
+            await fetch('https://next-api.useplunk.com/v1/send', options)
               .then((response) => response.json())
               .then((response) => console.log(response))
               .catch((error) => console.error(error));
@@ -141,4 +142,36 @@ export const storageRouter = createTRPCRouter({
         });
       }
     }),
+
+  sendTest: publicProcedure.mutation(async () => {
+    try {
+      console.log(process.env.PLUNK_API_SECRET_KEY);
+      await wait(5000);
+      console.log('sending test');
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.PLUNK_API_SECRET_KEY}`,
+        },
+        body: JSON.stringify({
+          to: [
+            'jonathan.cheng@premiersoccerleagues.ca',
+            'felix.chau@premiersoccerleagues.ca',
+          ],
+          subject: 'TEST GAME NOTICE EMAIL',
+          reply: 'lorin.berballa@premiersoccerleagues.ca',
+          body: `<p>This is a test game notice email, tell Jonathan if you received it.</p>`,
+          from: 'jonathan.cheng@premiersoccerleagues.ca',
+        }),
+      };
+
+      await fetch('https://next-api.useplunk.com/v1/send', options)
+        .then((response) => response.json())
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error.errors));
+    } catch (error) {
+      console.log(error);
+    }
+  }),
 });

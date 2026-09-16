@@ -3,6 +3,7 @@ import MatchTable from '@/components/match-table';
 import { useState } from 'react';
 import { addDay, dayStart, format } from '@formkit/tempo';
 import { trpc } from '@/utils/trpc';
+import { Button } from './ui/button';
 
 const DaySelector = () => {
   const [date, setDate] = useState<Date | undefined>(
@@ -13,6 +14,12 @@ const DaySelector = () => {
     date: format(date || new Date(), 'YYYYMMDD', 'en'),
   });
 
+  const { mutate } = trpc.storage.sendTest.useMutation({
+    onSuccess: () => {
+      console.log('emails sent');
+    },
+  });
+
   return (
     <>
       <Calendar
@@ -21,6 +28,7 @@ const DaySelector = () => {
         onSelect={setDate}
         className='rounded-md border'
       />
+      <Button onClick={() => mutate()}>Send Test</Button>
       {isSuccess && (
         <MatchTable
           data={data.matches}
